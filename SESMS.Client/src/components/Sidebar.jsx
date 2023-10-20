@@ -66,17 +66,20 @@ const Sidebar = () => {
   ];
 
   return (
-    <Card className="shadow-blue-gray-900/5 h-screen  w-full max-w-[20rem] p-4 shadow-xl">
+    <Card
+      className="min-h-screen  w-full  max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5"
+      style={{ height: "min-content" }}
+    >
       <div className="mb-2 p-4">
         <Typography variant="h5" color="blue-gray">
           UEP Sports Events Schedule Management System
         </Typography>
       </div>
       <List>
-        {sideList.map((item) => {
+        {sideList.map((item, index) => {
           const IconComponent = item.icon;
           return (
-            <Link to={item.link}>
+            <Link to={item.link} key={index}>
               <ListItem>
                 <ListItemPrefix>
                   <IconComponent className="h-5 w-5" />
