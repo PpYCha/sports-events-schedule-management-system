@@ -1,0 +1,31 @@
+GET http://localhost:3000/facilatators
+
+###
+
+GET http://localhost:3000/facilatators/6539b96749e971c8453c218f
+
+###
+
+POST http://localhost:3000/facilatators
+Content-Type: application/json
+
+{
+    "firstName": "Jawo",
+    "lastName": "Diaz",
+    "role": "Coach"
+}
+
+###
+
+DELETE http://localhost:3000/facilatators/6539b7a264783bf342df4f16
+
+###
+
+PATCH http://localhost:3000/facilatators/6539b96249e971c8453c2183
+Content-Type: application/json
+
+{
+    "firstName": "YYYYY",
+    "lastName": "1111",
+    "role": "3333"
+}
