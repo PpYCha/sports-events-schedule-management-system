@@ -6,7 +6,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import ErrorPage from "./pages/error-page.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Facilitators from "./pages/Facilitators.jsx";
-import Players from "./pages/Players.jsx";
+import Players from "./pages/players/Players.jsx";
 import Teams from "./pages/Teams.jsx";
 import SportsEvents from "./pages/SportsEvents.jsx";
 import Venues from "./pages/Venues.jsx";

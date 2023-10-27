@@ -3,6 +3,7 @@ import {
   ChevronDoubleRightIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  MagnifyingGlassIcon,
   PlusCircleIcon,
   PrinterIcon,
 } from "@heroicons/react/24/solid";
@@ -13,7 +14,10 @@ import {
   DialogBody,
   DialogFooter,
   DialogHeader,
+  IconButton,
   Input,
+  Option,
+  Select,
   Typography,
 } from "@material-tailwind/react";
 import React, { useState } from "react";
@@ -90,7 +94,25 @@ const Facilitators = () => {
         </div>
       </Card>
       <Card className="p-5">
-        <table className="w-full min-w-max table-auto text-left">
+        {/* <Input label="Search" icon={<MagnifyingGlassIcon />} /> */}
+
+        <div className="relative flex w-full max-w-[24rem]">
+          <Input
+            type="text"
+            label="Search"
+            // value={email}
+            // onChange={onChange}
+            className="pr-20"
+            containerProps={{
+              className: "min-w-0",
+            }}
+          />
+
+          <IconButton className="!absolute right-1 top-1 h-8 rounded">
+            <MagnifyingGlassIcon className="h-5 w-5" />
+          </IconButton>
+        </div>
+        <table className="mt-5 w-full min-w-max table-auto text-left">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => {
               // console.log(headerGroup);
@@ -176,6 +198,19 @@ const Facilitators = () => {
               {table.getPageCount()}
             </strong>
           </span>
+
+          <select
+            value={table.getState().pagination.pageSize}
+            onChange={(e) => {
+              table.setPageSize(Number(e.target.value));
+            }}
+          >
+            {[10, 20, 30, 40, 50].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                Show {pageSize}
+              </option>
+            ))}
+          </select>
         </div>
       </Card>
 
@@ -183,11 +218,23 @@ const Facilitators = () => {
         <DialogHeader>New Facilatator</DialogHeader>
         <DialogBody divider>
           <div className="flex flex-col gap-5">
-            <Input label="Username" />
-            <Input label="Password" />
-            <Input label="Role" />
-            <Input label="First Name" />
-            <Input label="Last Name" />
+            <Input label="Firstname" />
+            <Input label="Lastname" />
+
+            <Select label="Select Facilatator Role">
+              <Option>--</Option>
+              <Option>Referee</Option>
+              <Option>Announcer</Option>
+            </Select>
+
+            <Select label="Sports Event">
+              <Option>--</Option>
+              <Option>Chess</Option>
+              <Option>Basketball</Option>
+              <Option>Table Tennis</Option>
+              <Option>Badminton</Option>
+              <Option>Running</Option>
+            </Select>
           </div>
         </DialogBody>
         <DialogFooter>
