@@ -19,9 +19,10 @@ import {
   FlagIcon,
 } from "@heroicons/react/24/solid";
 import avatarImage from "../assets/img/dp1.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const sideList = [
     {
       icon: PresentationChartBarIcon,
@@ -90,7 +91,10 @@ const Sidebar = () => {
           );
         })}
 
-        <ListItem className="text-red-500 hover:bg-[#feeceb] hover:text-red-500">
+        <ListItem
+          className="text-red-500 hover:bg-[#feeceb] hover:text-red-500"
+          onClick={(e) => navigate("/login")}
+        >
           <ListItemPrefix>
             <PowerIcon className="h-5 w-5" />
           </ListItemPrefix>
