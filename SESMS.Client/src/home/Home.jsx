@@ -6,58 +6,56 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
 const URL =
   "https://raw.githubusercontent.com/Drarig29/brackets-viewer.js/master/demo/db.json";
 
-function NavList() {
-  return (
-    <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-medium"
-      >
-        <a
-          href="#"
-          className="flex items-center transition-colors hover:text-blue-500"
+export function Home() {
+  const navigate = useNavigate();
+  const [openNav, setOpenNav] = React.useState(false);
+
+  function NavList() {
+    return (
+      <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-medium"
         >
-          Schedules
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-medium"
-      >
-        <a
-          href="#"
-          className="flex items-center transition-colors hover:text-blue-500"
+          <a
+            href="#"
+            className="flex items-center transition-colors hover:text-blue-500"
+          >
+            Schedules
+          </a>
+        </Typography>
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-medium"
         >
-          Accouncements
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-medium"
-      >
-        <a
-          href="/login"
-          className="flex items-center transition-colors hover:text-blue-500"
+          <a
+            href="#"
+            className="flex items-center transition-colors hover:text-blue-500 "
+          >
+            Accouncements
+          </a>
+        </Typography>
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="flex items-center p-1 font-medium transition-colors hover:text-blue-500"
+          onClick={(e) => navigate("login")}
         >
           Login
-        </a>
-      </Typography>
-    </ul>
-  );
-}
-
-export function Home() {
-  const [openNav, setOpenNav] = React.useState(false);
+        </Typography>
+      </ul>
+    );
+  }
 
   const handleWindowResize = () =>
     window.innerWidth >= 960 && setOpenNav(false);
