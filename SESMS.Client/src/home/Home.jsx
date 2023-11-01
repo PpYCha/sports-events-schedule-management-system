@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navbar,
   Collapse,
@@ -6,6 +6,9 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+
+const URL =
+  "https://raw.githubusercontent.com/Drarig29/brackets-viewer.js/master/demo/db.json";
 
 function NavList() {
   return (
@@ -67,6 +70,21 @@ export function Home() {
     };
   }, []);
 
+  async function render() {
+    const data = await fetch(URL).then((res) => res.json());
+
+    window.bracketsViewer.render({
+      stages: data.stage,
+      matches: data.match,
+      matchGames: data.match_game,
+      participants: data.participant,
+    });
+  }
+
+  useEffect(() => {
+    render();
+  }, []);
+
   return (
     <>
       <Navbar className="mx-auto max-w-screen-xl px-6 py-3">
@@ -101,6 +119,7 @@ export function Home() {
       </Navbar>
       <div className="mx-auto max-w-screen-xl px-6 py-3">
         <Typography variant="h2">Upcoming Events</Typography>
+        <div className="brackets-viewer"></div>
       </div>
     </>
   );
