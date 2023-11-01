@@ -34,7 +34,10 @@ const Login = () => {
     <>
       <div className="flex h-screen items-center justify-center bg-[#f0f2f5] p-5">
         <Card className="p-5 ">
-          <div className="flex  w-full items-center justify-center">
+          <div
+            className="flex  w-full items-center justify-center"
+            onClick={(e) => navigate("/home")}
+          >
             <img src={logoImage} className="h-auto max-h-[200px] " />
           </div>
           <Typography

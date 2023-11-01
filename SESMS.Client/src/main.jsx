@@ -13,11 +13,13 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Facilitators from "./pages/Facilitators.jsx";
 import Players from "./pages/players/Players.jsx";
 import Teams from "./pages/teams/Teams.jsx";
-import SportsEvents from "./pages/SportsEvents.jsx";
-import Venues from "./pages/Venues.jsx";
-import Schedules from "./pages/Schedules.jsx";
+import SportsEvents from "./pages/sportsEvent/SportsEvents.jsx";
+
 import Settings from "./pages/Settings.jsx";
 import Login from "./pages/login/Login.jsx";
+import Schedules from "./pages/schedules/Schedules.jsx";
+import Venues from "./pages/venues/Venues.jsx";
+import { Home } from "./home/Home.jsx";
 
 const router1 = createBrowserRouter([
   {
@@ -64,7 +66,8 @@ const router1 = createBrowserRouter([
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />} errorElement={<ErrorPage />}>
-      <Route index path="/login" element={<Login />} />
+      <Route index path="/home" element={<Home />} />
+      <Route path="/login" element={<Login />} />
       <Route errorElement={<ErrorPage />}>
         <Route index path="dashboard" element={<Dashboard />} />
         <Route path="facilitators" element={<Facilitators />} />

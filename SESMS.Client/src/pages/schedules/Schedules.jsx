@@ -29,39 +29,43 @@ import {
   useReactTable,
   getPaginationRowModel,
 } from "@tanstack/react-table";
-import { userData } from "../../data/USER_MOCK_DATA";
+
 import Table from "../../components/Table";
-import TeamDialog from "./TeamDialog";
-import { teamsData } from "../../data/MOCK_DATA";
+import { scheduleData } from "../../data/MOCK_DATA";
+import VenueDialog from "./SchedulesDialog";
 
 const columnHelper = createColumnHelper();
 
 const columns = [
-  columnHelper.accessor("teamName", {
+  columnHelper.accessor("sportEventName", {
     cell: (info) => info.getValue(),
-    header: () => <span>Team Name</span>,
+    header: () => <span>Sport Event Name</span>,
   }),
 
-  columnHelper.accessor("sportsEvent", {
+  columnHelper.accessor("venue", {
     cell: (info) => info.getValue(),
-    header: () => <span>Sports Event</span>,
+    header: () => <span>Venue</span>,
   }),
-  columnHelper.accessor("manager", {
+  columnHelper.accessor("startDate", {
     cell: (info) => info.getValue(),
-    header: () => <span>Manager</span>,
+    header: () => <span>Start Date</span>,
   }),
-  columnHelper.accessor("college", {
+  // columnHelper.accessor("startTime", {
+  //   cell: (info) => info.getValue(),
+  //   header: () => <span>Start Time</span>,
+  // }),
+  columnHelper.accessor("endDate", {
     cell: (info) => info.getValue(),
-    header: () => <span>College</span>,
+    header: () => <span>End Date</span>,
   }),
-  columnHelper.accessor("teamColor", {
-    cell: (info) => info.getValue(),
-    header: () => <span>Team Color</span>,
-  }),
+  // columnHelper.accessor("endTime", {
+  //   cell: (info) => info.getValue(),
+  //   header: () => <span>End Time</span>,
+  // }),
 ];
 
-const Teams = () => {
-  const [data, setUserList] = useState(teamsData);
+const Schedules = () => {
+  const [data, setUserList] = useState(scheduleData);
   const [open, setOpen] = useState(false);
 
   const table = useReactTable({
@@ -79,7 +83,7 @@ const Teams = () => {
       <Card className="mb-5 p-5">
         <div className="flex items-center justify-between ">
           <Typography variant="h4" className="">
-            List of Teams
+            List of Schedules
           </Typography>
           <div className="flex items-center justify-center gap-5">
             <Button className="flex items-center justify-center gap-5 bg-[#244860]">
@@ -91,7 +95,7 @@ const Teams = () => {
               onClick={handleOpen}
             >
               <PlusCircleIcon className="h-5 w-5" />
-              New Team
+              New Schedule
             </Button>
           </div>
         </div>
@@ -99,9 +103,9 @@ const Teams = () => {
 
       <Table table={table} data={data} />
 
-      <TeamDialog open={open} handleOpen={handleOpen} />
+      <VenueDialog open={open} handleOpen={handleOpen} />
     </div>
   );
 };
 
-export default Teams;
+export default Schedules;

@@ -3,12 +3,15 @@ import Sidebar from "./components/Sidebar";
 import NavbarComponent from "./components/NavbarComponent";
 import { Outlet, useLocation } from "react-router-dom";
 import Login from "./pages/login/Login";
+import { Home } from "./home/Home";
 
 function App() {
   const location = useLocation();
   const pathname = location.pathname;
-  if (pathname === "/login" || pathname === "/") {
+  if (pathname === "/login") {
     return <Login />;
+  } else if (pathname === "/home" || pathname === "/") {
+    return <Home />;
   } else {
     return (
       <div className="flex bg-[#e9ecf1]">

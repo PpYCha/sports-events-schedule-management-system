@@ -29,39 +29,27 @@ import {
   useReactTable,
   getPaginationRowModel,
 } from "@tanstack/react-table";
-import { userData } from "../../data/USER_MOCK_DATA";
+
 import Table from "../../components/Table";
-import TeamDialog from "./TeamDialog";
-import { teamsData } from "../../data/MOCK_DATA";
+import { venuesData } from "../../data/MOCK_DATA";
+import VenueDialog from "./VenueDialog";
 
 const columnHelper = createColumnHelper();
 
 const columns = [
-  columnHelper.accessor("teamName", {
+  columnHelper.accessor("venue", {
     cell: (info) => info.getValue(),
-    header: () => <span>Team Name</span>,
+    header: () => <span>Venue</span>,
   }),
 
-  columnHelper.accessor("sportsEvent", {
+  columnHelper.accessor("location", {
     cell: (info) => info.getValue(),
-    header: () => <span>Sports Event</span>,
-  }),
-  columnHelper.accessor("manager", {
-    cell: (info) => info.getValue(),
-    header: () => <span>Manager</span>,
-  }),
-  columnHelper.accessor("college", {
-    cell: (info) => info.getValue(),
-    header: () => <span>College</span>,
-  }),
-  columnHelper.accessor("teamColor", {
-    cell: (info) => info.getValue(),
-    header: () => <span>Team Color</span>,
+    header: () => <span>Location</span>,
   }),
 ];
 
-const Teams = () => {
-  const [data, setUserList] = useState(teamsData);
+const Venues = () => {
+  const [data, setUserList] = useState(venuesData);
   const [open, setOpen] = useState(false);
 
   const table = useReactTable({
@@ -79,7 +67,7 @@ const Teams = () => {
       <Card className="mb-5 p-5">
         <div className="flex items-center justify-between ">
           <Typography variant="h4" className="">
-            List of Teams
+            List of Venues
           </Typography>
           <div className="flex items-center justify-center gap-5">
             <Button className="flex items-center justify-center gap-5 bg-[#244860]">
@@ -91,7 +79,7 @@ const Teams = () => {
               onClick={handleOpen}
             >
               <PlusCircleIcon className="h-5 w-5" />
-              New Team
+              New Venue
             </Button>
           </div>
         </div>
@@ -99,9 +87,9 @@ const Teams = () => {
 
       <Table table={table} data={data} />
 
-      <TeamDialog open={open} handleOpen={handleOpen} />
+      <VenueDialog open={open} handleOpen={handleOpen} />
     </div>
   );
 };
 
-export default Teams;
+export default Venues;

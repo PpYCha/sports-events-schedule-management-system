@@ -29,39 +29,35 @@ import {
   useReactTable,
   getPaginationRowModel,
 } from "@tanstack/react-table";
-import { userData } from "../../data/USER_MOCK_DATA";
+
 import Table from "../../components/Table";
-import TeamDialog from "./TeamDialog";
-import { teamsData } from "../../data/MOCK_DATA";
+import { sportsEventData } from "../../data/MOCK_DATA";
+import SportsEventDialog from "./SportsEventDialog";
 
 const columnHelper = createColumnHelper();
 
 const columns = [
-  columnHelper.accessor("teamName", {
+  columnHelper.accessor("sportEventName", {
     cell: (info) => info.getValue(),
-    header: () => <span>Team Name</span>,
+    header: () => <span>Sport Event Name</span>,
   }),
 
-  columnHelper.accessor("sportsEvent", {
+  columnHelper.accessor("facilatator", {
     cell: (info) => info.getValue(),
-    header: () => <span>Sports Event</span>,
+    header: () => <span>Facilatator</span>,
   }),
-  columnHelper.accessor("manager", {
+  columnHelper.accessor("venue", {
     cell: (info) => info.getValue(),
-    header: () => <span>Manager</span>,
+    header: () => <span>Venue</span>,
   }),
-  columnHelper.accessor("college", {
+  columnHelper.accessor("numberOfParticipants", {
     cell: (info) => info.getValue(),
-    header: () => <span>College</span>,
-  }),
-  columnHelper.accessor("teamColor", {
-    cell: (info) => info.getValue(),
-    header: () => <span>Team Color</span>,
+    header: () => <span>Number Of Participants</span>,
   }),
 ];
 
-const Teams = () => {
-  const [data, setUserList] = useState(teamsData);
+const SportsEvents = () => {
+  const [data, setUserList] = useState(sportsEventData);
   const [open, setOpen] = useState(false);
 
   const table = useReactTable({
@@ -79,7 +75,7 @@ const Teams = () => {
       <Card className="mb-5 p-5">
         <div className="flex items-center justify-between ">
           <Typography variant="h4" className="">
-            List of Teams
+            List of Sports Event
           </Typography>
           <div className="flex items-center justify-center gap-5">
             <Button className="flex items-center justify-center gap-5 bg-[#244860]">
@@ -91,7 +87,7 @@ const Teams = () => {
               onClick={handleOpen}
             >
               <PlusCircleIcon className="h-5 w-5" />
-              New Team
+              New Venue
             </Button>
           </div>
         </div>
@@ -99,9 +95,9 @@ const Teams = () => {
 
       <Table table={table} data={data} />
 
-      <TeamDialog open={open} handleOpen={handleOpen} />
+      <SportsEventDialog open={open} handleOpen={handleOpen} />
     </div>
   );
 };
 
-export default Teams;
+export default SportsEvents;

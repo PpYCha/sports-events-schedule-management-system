@@ -32,6 +32,7 @@ import {
 import { userData } from "../../data/USER_MOCK_DATA";
 import Table from "../../components/Table";
 import PlayerDialog from "./PlayerDialog";
+import { playersData } from "../../data/PLAYERS_MOCK_DATA";
 
 const columnHelper = createColumnHelper();
 
@@ -43,24 +44,33 @@ const columns = [
   //   // footer: (info) => info.column.id,
   // }),
 
-  columnHelper.accessor("last_name", {
+  columnHelper.accessor("firstName", {
     cell: (info) => info.getValue(),
-    header: () => <span>Last Name</span>,
+    header: () => <span>First Name</span>,
     // footer: (info) => info.column.id,
   }),
 
-  columnHelper.accessor("first_name", {
+  columnHelper.accessor("lastName", {
     cell: (info) => info.getValue(),
-    header: () => <span>First Name</span>,
+    header: () => <span>Last Name</span>,
   }),
-  columnHelper.accessor("username", {
+
+  columnHelper.accessor("gender", {
     cell: (info) => info.getValue(),
-    header: () => <span>Username</span>,
+    header: () => <span>Gender</span>,
+  }),
+  columnHelper.accessor("college", {
+    cell: (info) => info.getValue(),
+    header: () => <span>College</span>,
+  }),
+  columnHelper.accessor("course", {
+    cell: (info) => info.getValue(),
+    header: () => <span>Course</span>,
   }),
 ];
 
 const Players = () => {
-  const [data, setUserList] = useState(userData);
+  const [data, setUserList] = useState(playersData);
   const [open, setOpen] = useState(false);
 
   const table = useReactTable({

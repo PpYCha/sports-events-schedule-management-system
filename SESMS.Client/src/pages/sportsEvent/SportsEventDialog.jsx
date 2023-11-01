@@ -10,24 +10,16 @@ import {
 } from "@material-tailwind/react";
 import React from "react";
 
-const TeamDialog = ({ open, handleOpen }) => {
+const SportsEventDialog = ({ open, handleOpen }) => {
   return (
     <Dialog open={open} handler={handleOpen}>
-      <DialogHeader>New Team</DialogHeader>
+      <DialogHeader>New Sport Event</DialogHeader>
       <DialogBody divider>
         <div className="flex flex-col gap-5">
-          <Input label="Team Name" />
-          <Input label="Sports Event" />
-          <Input label="Manager" />
-
-          <Select label="Select College">
-            <Option>College of Science</Option>
-            <Option>College of Nursing</Option>
-            <Option>College of Education</Option>
-            <Option>College of Agriculture</Option>
-          </Select>
-
-          <Input label="Team Color" />
+          <Input label="Sport Event Name" />
+          <Input label="Facilatator" />
+          <Input label="Venue" />
+          <Input label="Number of Participants" />
         </div>
       </DialogBody>
       <DialogFooter>
@@ -47,4 +39,4 @@ const TeamDialog = ({ open, handleOpen }) => {
   );
 };
 
-export default TeamDialog;
+export default SportsEventDialog;
