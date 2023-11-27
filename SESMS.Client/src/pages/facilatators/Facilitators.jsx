@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
@@ -10,17 +12,10 @@ import {
 import {
   Button,
   Card,
-  Dialog,
-  DialogBody,
-  DialogFooter,
-  DialogHeader,
   IconButton,
   Input,
-  Option,
-  Select,
   Typography,
 } from "@material-tailwind/react";
-import React, { useState } from "react";
 
 import {
   createColumnHelper,
@@ -29,7 +24,8 @@ import {
   useReactTable,
   getPaginationRowModel,
 } from "@tanstack/react-table";
-import { userData } from "../data/USER_MOCK_DATA";
+import { userData } from "../../data/USER_MOCK_DATA";
+import FacilitatorsDialog from "./FacilitatorsDialog";
 
 const columnHelper = createColumnHelper();
 
@@ -41,24 +37,29 @@ const columns = [
   //   // footer: (info) => info.column.id,
   // }),
 
-  columnHelper.accessor("last_name", {
+  columnHelper.accessor("firstName", {
+    cell: (info) => info.getValue(),
+    header: () => <span>First Name</span>,
+  }),
+
+  columnHelper.accessor("lastName", {
     cell: (info) => info.getValue(),
     header: () => <span>Last Name</span>,
     // footer: (info) => info.column.id,
   }),
 
-  columnHelper.accessor("first_name", {
+  columnHelper.accessor("facilitatorRole", {
     cell: (info) => info.getValue(),
-    header: () => <span>First Name</span>,
+    header: () => <span>Facilatator Role</span>,
   }),
-  columnHelper.accessor("username", {
+  columnHelper.accessor("sportsEvent", {
     cell: (info) => info.getValue(),
-    header: () => <span>Username</span>,
+    header: () => <span>Sports Event</span>,
   }),
 ];
 
 const Facilitators = () => {
-  const [data, setUserList] = useState(userData);
+  const [data, setUserList] = useState([]);
   const [open, setOpen] = useState(false);
 
   const table = useReactTable({
@@ -70,6 +71,21 @@ const Facilitators = () => {
   });
 
   const handleOpen = () => setOpen(!open);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/facilatators");
+
+        setUserList(res.data); // Assuming setUserList updates the state correctly
+      } catch (error) {
+        console.error("Error fetching data:", error); // Log any errors
+      }
+    };
+
+    console.log("Fetching data...");
+    fetchData(); // Call the async function inside useEffect
+  }, []);
 
   return (
     <div>
@@ -213,44 +229,7 @@ const Facilitators = () => {
           </select>
         </div>
       </Card>
-
-      <Dialog open={open} handler={handleOpen}>
-        <DialogHeader>New Facilatator</DialogHeader>
-        <DialogBody divider>
-          <div className="flex flex-col gap-5">
-            <Input label="Firstname" />
-            <Input label="Lastname" />
-
-            <Select label="Select Facilatator Role">
-              <Option>--</Option>
-              <Option>Referee</Option>
-              <Option>Announcer</Option>
-            </Select>
-
-            <Select label="Sports Event">
-              <Option>--</Option>
-              <Option>Chess</Option>
-              <Option>Basketball</Option>
-              <Option>Table Tennis</Option>
-              <Option>Badminton</Option>
-              <Option>Running</Option>
-            </Select>
-          </div>
-        </DialogBody>
-        <DialogFooter>
-          <Button
-            variant="text"
-            color="red"
-            onClick={handleOpen}
-            className="mr-1"
-          >
-            <span>Cancel</span>
-          </Button>
-          <Button variant="gradient" color="green" onClick={handleOpen}>
-            <span>Save</span>
-          </Button>
-        </DialogFooter>
-      </Dialog>
+      <FacilitatorsDialog open={open} handleOpen={handleOpen} />
     </div>
   );
 };

@@ -22,7 +22,8 @@ router.post("/", async (req, res) => {
   const facilatator = new Facilatator({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    role: req.body.role,
+    facilitatorRole: req.body.facilitatorRole,
+    sportsEvent: req.body.sportsEvent,
   });
   try {
     const newFacilatator = await facilatator.save();
@@ -39,8 +40,11 @@ router.patch("/:id", getFacilatator, async (req, res) => {
   if (req.body.lastName1 != null) {
     res.facilatator.lastName = req.body.lastName;
   }
-  if (req.body.role != null) {
-    res.facilatator.role = req.body.role;
+  if (req.body.facilitatorRole != null) {
+    res.facilatator.facilitatorRole = req.body.facilitatorRole;
+  }
+  if (req.body.sportsEvent != null) {
+    res.facilatator.sportsEvent = req.body.sportsEvent;
   }
   try {
     const updatedFacilator = await res.facilatator.save();

@@ -9,7 +9,11 @@ const facilatatorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  role: {
+  facilitatorRole: {
+    type: String,
+    required: true,
+  },
+  sportsEvent: {
     type: String,
     required: true,
   },

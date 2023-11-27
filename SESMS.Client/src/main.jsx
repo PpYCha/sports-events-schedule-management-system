@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import ErrorPage from "./pages/error-page.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
-import Facilitators from "./pages/Facilitators.jsx";
+import Facilitators from "./pages/facilatators/Facilitators.jsx";
 import Players from "./pages/players/Players.jsx";
 import Teams from "./pages/teams/Teams.jsx";
 import SportsEvents from "./pages/sportsEvent/SportsEvents.jsx";

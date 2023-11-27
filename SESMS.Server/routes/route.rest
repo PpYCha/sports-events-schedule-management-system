@@ -12,7 +12,8 @@ Content-Type: application/json
 {
     "firstName": "Jawo",
     "lastName": "Diaz",
-    "role": "Coach"
+    "facilitatorRole": "Coach",
+    "sportsEvent":"Chess"
 }
 
 ###
