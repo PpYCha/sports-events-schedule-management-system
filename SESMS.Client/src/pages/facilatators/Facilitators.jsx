@@ -6,8 +6,10 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   MagnifyingGlassIcon,
+  PencilSquareIcon,
   PlusCircleIcon,
   PrinterIcon,
+  TrashIcon,
 } from "@heroicons/react/24/solid";
 import {
   Button,
@@ -29,38 +31,63 @@ import FacilitatorsDialog from "./FacilitatorsDialog";
 
 const columnHelper = createColumnHelper();
 
-const columns = [
-  // columnHelper.accessor((row) => row.lastName, {
-  //   id: "lastName",
-  //   cell: (info) => <i>{info.getValue()}</i>,
-  //   header: () => <span>Last Name</span>,
-  //   // footer: (info) => info.column.id,
-  // }),
-
-  columnHelper.accessor("firstName", {
-    cell: (info) => info.getValue(),
-    header: () => <span>First Name</span>,
-  }),
-
-  columnHelper.accessor("lastName", {
-    cell: (info) => info.getValue(),
-    header: () => <span>Last Name</span>,
-    // footer: (info) => info.column.id,
-  }),
-
-  columnHelper.accessor("facilitatorRole", {
-    cell: (info) => info.getValue(),
-    header: () => <span>Facilatator Role</span>,
-  }),
-  columnHelper.accessor("sportsEvent", {
-    cell: (info) => info.getValue(),
-    header: () => <span>Sports Event</span>,
-  }),
-];
-
 const Facilitators = () => {
   const [data, setUserList] = useState([]);
   const [open, setOpen] = useState(false);
+  const [editFacilitator, setEditFacilitator] = useState();
+
+  const columns = [
+    // columnHelper.accessor((row) => row.lastName, {
+    //   id: "lastName",
+    //   cell: (info) => <i>{info.getValue()}</i>,
+    //   header: () => <span>Last Name</span>,
+    //   // footer: (info) => info.column.id,
+    // }),
+
+    columnHelper.accessor("firstName", {
+      cell: (info) => info.getValue(),
+      header: () => <span>First Name</span>,
+    }),
+
+    columnHelper.accessor("lastName", {
+      cell: (info) => info.getValue(),
+      header: () => <span>Last Name</span>,
+      // footer: (info) => info.column.id,
+    }),
+
+    columnHelper.accessor("facilitatorRole", {
+      cell: (info) => info.getValue(),
+      header: () => <span>Facilatator Role</span>,
+    }),
+    columnHelper.accessor("sportsEvent", {
+      cell: (info) => info.getValue(),
+      header: () => <span>Sports Event</span>,
+    }),
+    columnHelper.accessor("action", {
+      cell: (info) => (
+        <div className="flex gap-4">
+          <IconButton
+            className="flex items-center justify-center gap-5 bg-[#313131]"
+            onClick={(e) => {
+              setEditFacilitator(info.row.original);
+              handleOpen();
+            }}
+          >
+            <PencilSquareIcon className="h-5 w-5" />
+          </IconButton>
+          <IconButton
+            className="flex items-center justify-center gap-5 bg-red-500"
+            onClick={(e) => {
+              handleDelete(info.row.original._id);
+            }}
+          >
+            <TrashIcon className="h-5 w-5" />
+          </IconButton>
+        </div>
+      ),
+      header: () => <span>Actions</span>,
+    }),
+  ];
 
   const table = useReactTable({
     data,
@@ -71,20 +98,27 @@ const Facilitators = () => {
   });
 
   const handleOpen = () => setOpen(!open);
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/facilatators/${id}`);
+      fetchData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/facilatators");
+
+      setUserList(res.data); // Assuming setUserList updates the state correctly
+    } catch (error) {
+      console.error("Error fetching data:", error); // Log any errors
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get("http://localhost:3000/facilatators");
-
-        setUserList(res.data); // Assuming setUserList updates the state correctly
-      } catch (error) {
-        console.error("Error fetching data:", error); // Log any errors
-      }
-    };
-
-    console.log("Fetching data...");
-    fetchData(); // Call the async function inside useEffect
+    fetchData();
   }, []);
 
   return (
@@ -229,7 +263,11 @@ const Facilitators = () => {
           </select>
         </div>
       </Card>
-      <FacilitatorsDialog open={open} handleOpen={handleOpen} />
+      <FacilitatorsDialog
+        open={open}
+        handleOpen={handleOpen}
+        editFacilitator={editFacilitator}
+      />
     </div>
   );
 };

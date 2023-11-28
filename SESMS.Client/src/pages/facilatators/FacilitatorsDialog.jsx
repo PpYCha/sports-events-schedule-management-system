@@ -11,11 +11,18 @@ import {
   Select,
 } from "@material-tailwind/react";
 
-const FacilitatorsDialog = ({ open, handleOpen }) => {
+const FacilitatorsDialog = ({ open, handleOpen, editFacilitator }) => {
+  const [payload, setPayload] = useState({
+    firstName: "",
+    lastName: "",
+    facilitatorRole: "",
+    sportsEvent: "",
+  });
   const [firstName, setFirstname] = useState("");
   const [lastName, setLastname] = useState("");
   const [facilitatorRole, setFacilitatorRole] = useState("");
   const [sportsEvent, setSportsEvent] = useState("");
+  console.log(editFacilitator);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,10 +30,7 @@ const FacilitatorsDialog = ({ open, handleOpen }) => {
     try {
       // Your Axios POST request
       await axios.post("http://localhost:3000/facilatators", {
-        firstName,
-        lastName,
-        facilitatorRole,
-        sportsEvent,
+        ...payload,
       });
 
       // Close the dialog or perform any necessary actions after successful submission
@@ -45,19 +49,26 @@ const FacilitatorsDialog = ({ open, handleOpen }) => {
           <div className="flex flex-col gap-5">
             <Input
               label="Firstname"
-              value={firstName}
-              onChange={(e) => setFirstname(e.target.value)}
+              value={payload.firstName}
+              id="firstName"
+              onChange={(e) =>
+                setPayload({ ...payload, [e.target.id]: e.target.value })
+              }
             />
             <Input
               label="Lastname"
-              value={lastName}
-              onChange={(e) => setLastname(e.target.value)}
+              value={payload.lastName}
+              id="lastName"
+              onChange={(e) =>
+                setPayload({ ...payload, [e.target.id]: e.target.value })
+              }
             />
 
             <Select
               label="Select Facilitator Role"
-              value={facilitatorRole} // Ensure this value is correctly bound
-              onChange={(e) => setFacilitatorRole(e)}
+              value={payload.facilitatorRole} // Ensure this value is correctly bound
+              id="facilitatorRole"
+              onChange={(e) => setPayload({ ...payload, facilitatorRole: e })}
             >
               <Option disabled>--</Option>
               <Option value="Referee">Referee</Option>
@@ -66,8 +77,9 @@ const FacilitatorsDialog = ({ open, handleOpen }) => {
 
             <Select
               label="Sports Event"
-              value={sportsEvent} // Ensure this value is correctly bound
-              onChange={(e) => setSportsEvent(e)}
+              value={payload.sportsEvent} // Ensure this value is correctly bound
+              id="sportsEvent"
+              onChange={(e) => setPayload({ ...payload, sportsEvent: e })}
             >
               <Option disabled>--</Option>
               <Option value="Chess">Chess</Option>
