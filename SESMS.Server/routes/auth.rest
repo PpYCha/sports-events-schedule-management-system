@@ -1,0 +1,35 @@
+GET http://localhost:3000/login
+
+###
+
+GET http://localhost:3000/users/65655776698c2647964b9f60
+
+###
+
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  
+    "email": "admin@gmail.com",
+    "password":"Chess"
+}
+
+
+###
+
+DELETE http://localhost:3000/users/656557ad698c2647964b9f6a
+
+###
+
+PATCH http://localhost:3000/users/65655776698c2647964b9f60
+Content-Type: application/json
+
+{
+     "firstName": "sssss",
+    "lastName": "Diaz",
+    "email": "Coach",
+    "password":"Chess",
+    "userRole":"Chess",
+    "isActive":"Chess"
+}

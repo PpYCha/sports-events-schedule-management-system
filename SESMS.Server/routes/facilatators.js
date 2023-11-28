@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Facilatator = require("../models/facilatator");
-const facilatator = require("../models/facilatator");
 
 // Getting all
 router.get("/", async (req, res) => {

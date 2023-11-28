@@ -17,4 +17,10 @@ app.use(cors());
 const facilatatorsRouter = require("./routes/facilatators");
 app.use("/facilatators", facilatatorsRouter);
 
+const usersRouter = require("./routes/users");
+app.use("/users", usersRouter);
+
+const authRouter = require("./routes/auth");
+app.use("/login", authRouter);
+
 app.listen(3000, () => console.log("Server Started"));
