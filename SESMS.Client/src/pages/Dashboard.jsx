@@ -76,10 +76,10 @@ const Dashboard = () => {
   return (
     <div>
       <div className="mb-5 flex items-center justify-center gap-5">
-        {cardList.map((item) => {
+        {cardList.map((item, index) => {
           const Icon = item.icon;
           return (
-            <Card className="flex-1 bg-[#294350] text-[#f3fbff]">
+            <Card key={index} className="flex-1 bg-[#294350] text-[#f3fbff]">
               <CardBody className="flex flex-col items-center justify-center gap-5">
                 <Typography variant="h2" className="">
                   {item.count}
@@ -170,7 +170,7 @@ const Dashboard = () => {
               <List className="max-h-[500px] overflow-scroll">
                 {teamList.map((item, index) => {
                   return (
-                    <ListItem>
+                    <ListItem key={index}>
                       {index + 1}.{item.team_name}
                     </ListItem>
                   );

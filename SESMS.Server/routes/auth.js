@@ -10,14 +10,15 @@ router.post("/", async (req, res) => {
 
     // Check if user exists
     const user = await User.findOne({ email });
+
     if (!user) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(200).json({ email: "Couldn't find your Account" });
     }
 
     // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(200).json({ password: "Wrong password. Try again" });
     }
 
     // Generate JWT token

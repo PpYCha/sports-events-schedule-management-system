@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   Typography,
@@ -20,9 +20,15 @@ import {
 } from "@heroicons/react/24/solid";
 import avatarImage from "../assets/img/dp1.jpg";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import useAuthStore from "../context/authStore";
+import { jwtDecode } from "jwt-decode";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const { logout, refresh, currentUser } = useAuthStore();
+  // const [currentUser, setCurrentUser] = useState(null);
+
   const sideList = [
     {
       icon: PresentationChartBarIcon,
@@ -66,6 +72,9 @@ const Sidebar = () => {
     },
   ];
 
+  useEffect(() => {
+    refresh();
+  }, []);
   return (
     <Card
       className="min-h-screen  w-full  max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5"
@@ -93,7 +102,10 @@ const Sidebar = () => {
 
         <ListItem
           className="text-red-500 hover:bg-[#feeceb] hover:text-red-500"
-          onClick={(e) => navigate("/login")}
+          onClick={(e) => {
+            logout();
+            navigate("/login");
+          }}
         >
           <ListItemPrefix>
             <PowerIcon className="h-5 w-5" />
@@ -105,14 +117,14 @@ const Sidebar = () => {
         <Avatar src={avatarImage} alt="avatar" className="border-2 " />
         <div>
           <Typography variant="h6" className="text-[#f0f0f0]">
-            Rizzyl S. De Guia
+            {currentUser?.firstName + " " + currentUser?.lastName}
           </Typography>
           <Typography
             variant="small"
             color="gray"
             className="font-normal text-[#cccccc]"
           >
-            Administrator
+            {currentUser?.userRole}
           </Typography>
         </div>
       </div>

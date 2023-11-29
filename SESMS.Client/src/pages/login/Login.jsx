@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Card,
@@ -9,25 +9,59 @@ import {
   Alert,
   Dialog,
   CardBody,
+  IconButton,
 } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import logoImage from "../../assets/img/uepLogo.png";
 import useAuthStore from "../../context/authStore";
+import axios from "axios";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [payload, setPayload] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
   const [alert, setAlert] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuthStore();
+  const [errors, setErrors] = useState({});
 
-  const handleLogin = () => {
-    login(username, password);
-    if (username === "admin" && password === "admin")
-      navigate("/dashboard", { replace: true });
-    else if (username === "client" && password === "client")
-      navigate("/purchasehistory", { replace: true });
-    else setAlert(true);
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevState) => !prevState);
+  };
+
+  const handleLogin = async () => {
+    const validationErrors = validate(); // Perform initial validation
+    setErrors(validationErrors);
+
+    if (!validationErrors.email && !validationErrors.password) {
+      try {
+        const res = await axios.post("http://localhost:3000/login", {
+          ...payload,
+        });
+        if (res.data.email || res.data.password) {
+          setErrors(res.data);
+        } else {
+          login(res.data.token);
+          navigate("/dashboard", { replace: true });
+        }
+        setErrors(res.data);
+      } catch (error) {}
+    }
+  };
+
+  const validate = () => {
+    const error = {};
+    if (!payload.email) {
+      error.email = "Enter an email";
+    }
+    if (!payload.password) {
+      error.password = "Enter a password";
+    }
+    return error;
   };
 
   return (
@@ -60,18 +94,95 @@ const Login = () => {
           </Typography>
           <form className="mx-auto mb-2 mt-8 w-80 max-w-screen-lg sm:w-96">
             <div className="mb-1 flex flex-col gap-6">
-              <Input
-                label="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <Input
-                label="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div>
+                <Input
+                  label="Email"
+                  value={payload.email}
+                  id="email"
+                  onChange={(e) =>
+                    setPayload((prevPayload) => ({
+                      ...prevPayload,
+                      email: e.target.value,
+                    }))
+                  }
+                  required
+                  error={errors.email === undefined && " " ? false : true}
+                />
+                {errors.email === undefined && " " ? null : (
+                  <Typography
+                    variant="small"
+                    color="gray"
+                    className="mt-2 flex items-center gap-1 font-normal text-red-500"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="-mt-px h-4 w-4 "
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    {errors.email}
+                  </Typography>
+                )}
+              </div>
+              <div>
+                <div className="relative flex w-full">
+                  <Input
+                    label="Password"
+                    id="password"
+                    value={payload.password}
+                    onChange={(e) =>
+                      setPayload((prevPayload) => ({
+                        ...prevPayload,
+                        password: e.target.value,
+                      }))
+                    }
+                    required
+                    type={showPassword ? "text" : "password"}
+                    error={errors.password === undefined && " " ? false : true}
+                  />
+                  <IconButton
+                    className="!absolute right-1 top-1 rounded-full"
+                    ripple={true}
+                    variant="text"
+                    size="sm"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? (
+                      <EyeSlashIcon className="h-5 w-5" />
+                    ) : (
+                      <EyeIcon className="h-5 w-5" />
+                    )}
+                  </IconButton>
+                </div>
+                {errors.password === undefined && " " ? null : (
+                  <Typography
+                    variant="small"
+                    color="gray"
+                    className="mt-2 flex items-center gap-1 font-normal text-red-500"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="-mt-px h-4 w-4 "
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    {errors.password}
+                  </Typography>
+                )}
+              </div>
             </div>
-
             <Button
               className="mt-6"
               fullWidth
