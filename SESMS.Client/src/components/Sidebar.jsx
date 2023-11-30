@@ -66,6 +66,11 @@ const Sidebar = () => {
       link: "schedules",
     },
     {
+      icon: UsersIcon,
+      text: "Users",
+      link: "users",
+    },
+    {
       icon: Cog8ToothIcon,
       text: "Settings",
       link: "settings",

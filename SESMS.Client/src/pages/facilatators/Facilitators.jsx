@@ -108,8 +108,14 @@ const Facilitators = () => {
   };
 
   const fetchData = async () => {
+    const token = localStorage.getItem("token");
+    console.log(token);
     try {
-      const res = await axios.get("http://localhost:3000/facilatators");
+      const res = await axios.get("http://localhost:3000/facilitators", {
+        headers: {
+          Authorization: `${token}`, // Set the Authorization header with the token
+        },
+      });
 
       setUserList(res.data); // Assuming setUserList updates the state correctly
     } catch (error) {

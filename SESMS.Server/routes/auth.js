@@ -31,10 +31,10 @@ router.post("/", async (req, res) => {
       },
       "secretkey",
       {
-        expiresIn: "1h",
+        expiresIn: "10m",
       }
     );
-
+    console.log(token);
     res.status(200).json({ token });
   } catch (error) {
     console.error(error);

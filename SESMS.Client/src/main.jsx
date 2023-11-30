@@ -22,6 +22,7 @@ import Schedules from "./pages/schedules/Schedules.jsx";
 import Venues from "./pages/venues/Venues.jsx";
 import { Home } from "./home/Home.jsx";
 import useAuthStore from "./context/authStore.js";
+import Users from "./pages/users/Users.jsx";
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -88,6 +89,14 @@ const router = createBrowserRouter(
           element={
             <ProtectedRoute>
               <Schedules />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="users"
+          element={
+            <ProtectedRoute>
+              <Users />
             </ProtectedRoute>
           }
         />
