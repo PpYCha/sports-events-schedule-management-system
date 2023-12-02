@@ -13,7 +13,7 @@ import React from "react";
 const TeamDialog = ({ open, handleOpen }) => {
   return (
     <Dialog open={open} handler={handleOpen}>
-      <DialogHeader>New Team</DialogHeader>
+      <DialogHeader>New User</DialogHeader>
       <DialogBody divider>
         <div className="flex flex-col gap-5">
           <Input label="Team Name" />

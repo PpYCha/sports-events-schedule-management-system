@@ -11,7 +11,12 @@ import {
   Select,
 } from "@material-tailwind/react";
 
-const FacilitatorsDialog = ({ open, handleOpen, editFacilitator }) => {
+const FacilitatorsDialog = ({
+  open,
+  handleOpen,
+  editFacilitator,
+  dialogTitle,
+}) => {
   const [payload, setPayload] = useState({
     firstName: "",
     lastName: "",
@@ -44,7 +49,7 @@ const FacilitatorsDialog = ({ open, handleOpen, editFacilitator }) => {
   return (
     <Dialog open={open} handler={handleOpen}>
       <form onSubmit={handleSubmit}>
-        <DialogHeader>New Facilitator</DialogHeader>
+        <DialogHeader>{dialogTitle}</DialogHeader>
         <DialogBody divider>
           <div className="flex flex-col gap-5">
             <Input

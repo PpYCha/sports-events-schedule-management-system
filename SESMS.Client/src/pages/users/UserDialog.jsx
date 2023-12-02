@@ -10,16 +10,20 @@ import {
 } from "@material-tailwind/react";
 import React from "react";
 
-const UserDialog = ({ open, handleOpen }) => {
+const UserDialog = ({ open, handleOpen, ...payload }) => {
   return (
     <Dialog open={open} handler={handleOpen}>
       <DialogHeader>New Team</DialogHeader>
       <DialogBody divider>
         <div className="flex flex-col gap-5">
-          <Input label="Team Name" />
-          <Input label="Sports Event" />
-          <Input label="Manager" />
-
+          <Input
+            label="Firstname"
+            value={payload.firstName}
+            id="firstName"
+            onChange={(e) =>
+              setPayload({ ...payload, [e.target.id]: e.target.value })
+            }
+          />
           <Select label="Select College">
             <Option>College of Science</Option>
             <Option>College of Nursing</Option>

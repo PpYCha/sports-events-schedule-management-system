@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const verifyToken = require("../middleware/authMiddleware");
 
 // Getting all
-router.get("/", verifyToken, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const users = await User.find();
     res.json(users);

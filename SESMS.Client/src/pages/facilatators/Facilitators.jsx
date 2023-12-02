@@ -35,6 +35,7 @@ const Facilitators = () => {
   const [data, setUserList] = useState([]);
   const [open, setOpen] = useState(false);
   const [editFacilitator, setEditFacilitator] = useState();
+  const [dialogTitle, setDialogTitle] = useState();
 
   const columns = [
     // columnHelper.accessor((row) => row.lastName, {
@@ -70,6 +71,7 @@ const Facilitators = () => {
             className="flex items-center justify-center gap-5 bg-[#313131]"
             onClick={(e) => {
               setEditFacilitator(info.row.original);
+              setDialogTitle("Update Team");
               handleOpen();
             }}
           >
@@ -111,11 +113,14 @@ const Facilitators = () => {
     const token = localStorage.getItem("token");
     console.log(token);
     try {
-      const res = await axios.get("http://localhost:3000/facilitators", {
-        headers: {
-          Authorization: `${token}`, // Set the Authorization header with the token
-        },
-      });
+      const res = await axios.get(
+        "http://localhost:3000/facilatators",
+        // {
+        // headers: {
+        //   Authorization: `${token}`, // Set the Authorization header with the token
+        // },
+        // }
+      );
 
       setUserList(res.data); // Assuming setUserList updates the state correctly
     } catch (error) {
@@ -141,7 +146,9 @@ const Facilitators = () => {
             </Button>
             <Button
               className="flex items-center justify-center gap-5 bg-[#244860]"
-              onClick={handleOpen}
+              onClick={() => {
+                return handleOpen(), setDialogTitle("New Team");
+              }}
             >
               <PlusCircleIcon className="h-5 w-5" />
               New Facilatator
@@ -273,6 +280,7 @@ const Facilitators = () => {
         open={open}
         handleOpen={handleOpen}
         editFacilitator={editFacilitator}
+        dialogTitle={dialogTitle}
       />
     </div>
   );

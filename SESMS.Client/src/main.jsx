@@ -23,6 +23,7 @@ import Venues from "./pages/venues/Venues.jsx";
 import { Home } from "./home/Home.jsx";
 import useAuthStore from "./context/authStore.js";
 import Users from "./pages/users/Users.jsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -119,6 +120,8 @@ const router = createBrowserRouter(
 //   </React.StrictMode>,
 // );
 
+const queryClient = new QueryClient();
+
 const Root = () => {
   const refreshAuth = useAuthStore((state) => state.refresh);
 
@@ -128,10 +131,13 @@ const Root = () => {
 
   return (
     <React.StrictMode>
-      <RouterProvider router={router}>
-        <App />
-      </RouterProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router}>
+          <App />
+        </RouterProvider>
+      </QueryClientProvider>
     </React.StrictMode>
   );
 };
+
 ReactDOM.createRoot(document.getElementById("root")).render(<Root />);
