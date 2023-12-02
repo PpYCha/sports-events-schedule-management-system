@@ -10,6 +10,7 @@ import {
   Card,
   Chip,
   IconButton,
+  Spinner,
   Typography,
 } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
@@ -22,13 +23,21 @@ import {
 } from "@tanstack/react-table";
 import Table from "../../components/Table";
 import UserDialog from "./UserDialog";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import ConfimationDialog from "../../components/ConfimationDialog";
 
 const columnHelper = createColumnHelper();
 
 const Users = () => {
   const [data, setUserList] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const [dialogInfo, setDialogInfo] = useState({
+    confirmationTitle: "",
+    confirmationBody: "",
+  });
+
   const queryClient = useQueryClient();
 
   const columns = [
@@ -80,6 +89,7 @@ const Users = () => {
             className="flex items-center justify-center gap-5 bg-red-500"
             onClick={(e) => {
               handleDelete(info.row.original._id);
+              setSelectedId(info.row.original);
             }}
           >
             <TrashIcon className="h-5 w-5" />
@@ -98,31 +108,51 @@ const Users = () => {
     debugTable: true,
   });
 
-  const handleOpen = () => setOpen(!open);
-
-  const usersFetch = useQuery({
+  const { status, error, isFetching } = useQuery({
     queryKey: ["getUsers"],
     queryFn: async () => {
+      console.log("before:", isFetching);
       const { data } = await axios.get("http://localhost:3000/users");
+      console.log("after:", isFetching);
 
-      console.log("fetching");
       setUserList(data);
       return data;
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: () =>
+      axios.delete(`http://localhost:3000/users/${selectedId._id}`),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["getUsers"] }),
+  });
+
+  const hanldeOpenDialog = () => setOpenDialog(!openDialog);
+
   const handleDelete = async (id) => {
+    setOpenConfirmationDialog(true);
+    setDialogInfo({
+      confirmationTitle: "Delete",
+      confirmationBody: `Do you want to delete ${id} ?`,
+    });
+    // Other necessary operations when opening the dialog
+  };
+
+  const handleConfirmAction = async () => {
     try {
-      await axios.delete(`http://localhost:3000/users/${id}`);
-      fetchData();
+      // await axios.delete(`http://localhost:3000/users/${selectedId._id}`);
+      deleteMutation.mutate();
+      setOpenConfirmationDialog(false); // Close dialog after action completion
     } catch (error) {
       console.error(error);
     }
   };
 
-  useEffect(() => {
-    // usersFetch();
-  }, []);
+  const handleCloseDialog = () => {
+    setOpenConfirmationDialog(false); // Close dialog without taking any action
+  };
+
+  if (status === "pending") return <h1>Loading...</h1>;
+  if (status === "error") return <span>Error: {error.message}</span>;
 
   return (
     <div>
@@ -138,7 +168,7 @@ const Users = () => {
             </Button>
             <Button
               className="flex items-center justify-center gap-5 bg-[#244860]"
-              onClick={handleOpen}
+              onClick={hanldeOpenDialog}
             >
               <PlusCircleIcon className="h-5 w-5" />
               New User
@@ -147,9 +177,21 @@ const Users = () => {
         </div>
       </Card>
 
-      <Table table={table} data={data} />
+      {isFetching ? (
+        <Spinner className="mx-auto my-auto h-16 w-16 text-gray-900/50" />
+      ) : (
+        <Table table={table} data={data} />
+      )}
 
-      <UserDialog open={open} handleOpen={handleOpen} />
+      <UserDialog open={openDialog} hanldeOpenDialog={hanldeOpenDialog} />
+      <ConfimationDialog
+        openConfirmationDialog={openConfirmationDialog}
+        handleOpenConfirmationDialog={setOpenConfirmationDialog}
+        confirmationTitle={dialogInfo.confirmationTitle}
+        confirmationBody={dialogInfo.confirmationBody}
+        handleConfirmAction={handleConfirmAction}
+        handleCloseDialog={handleCloseDialog}
+      />
     </div>
   );
 };

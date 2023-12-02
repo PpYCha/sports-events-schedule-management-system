@@ -10,9 +10,9 @@ import {
 } from "@material-tailwind/react";
 import React from "react";
 
-const UserDialog = ({ open, handleOpen, ...payload }) => {
+const UserDialog = ({ open, hanldeOpenDialog, ...payload }) => {
   return (
-    <Dialog open={open} handler={handleOpen}>
+    <Dialog open={open} handler={hanldeOpenDialog}>
       <DialogHeader>New Team</DialogHeader>
       <DialogBody divider>
         <div className="flex flex-col gap-5">
@@ -38,12 +38,12 @@ const UserDialog = ({ open, handleOpen, ...payload }) => {
         <Button
           variant="text"
           color="red"
-          onClick={handleOpen}
+          onClick={hanldeOpenDialog}
           className="mr-1"
         >
           <span>Cancel</span>
         </Button>
-        <Button variant="gradient" color="green" onClick={handleOpen}>
+        <Button variant="gradient" color="green" onClick={hanldeOpenDialog}>
           <span>Save</span>
         </Button>
       </DialogFooter>

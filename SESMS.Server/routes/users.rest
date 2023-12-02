@@ -9,12 +9,12 @@ GET http://localhost:3000/users/65655776698c2647964b9f60
 
 POST http://localhost:3000/users
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTY1NWU5YmFjMzViZGM2N2NlOGQ0YzUiLCJmaXJzdE5hbWUiOiJKYXdvIiwibGFzdE5hbWUiOiJEaWF6IiwidXNlclJvbGUiOiJDaGVzcyIsImlhdCI6MTcwMTE2MTk3NiwiZXhwIjoxNzAxMTY1NTc2fQ.CRUyUIJXzB8dea7d8l-klZVTmZY4F6mheE4_o-vU0gE
+# Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTY1NWU5YmFjMzViZGM2N2NlOGQ0YzUiLCJmaXJzdE5hbWUiOiJKYXdvIiwibGFzdE5hbWUiOiJEaWF6IiwidXNlclJvbGUiOiJDaGVzcyIsImlhdCI6MTcwMTE2MTk3NiwiZXhwIjoxNzAxMTY1NTc2fQ.CRUyUIJXzB8dea7d8l-klZVTmZY4F6mheE4_o-vU0gE
 
 {
     "firstName": "Jawo",
     "lastName": "Diaz",
-    "email": "admin@gmail.com",
+    "email": "6@gmail.com",
     "password":"Chess",
     "userRole":"Chess",
     "isActive":true
@@ -23,7 +23,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTY1NWU5YmFj
 
 ###
 
-DELETE http://localhost:3000/users/656557ad698c2647964b9f6a
+DELETE http://localhost:3000/users/6565580cb97d5dc02644245c
 
 ###
 

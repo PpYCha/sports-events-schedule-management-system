@@ -19,7 +19,7 @@ router.get("/:id", getUser, (req, res) => {
   res.json(res.user);
 });
 // Creating one
-router.post("/", verifyToken, async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { firstName, lastName, email, password, userRole, isActive } =
       req.body;
