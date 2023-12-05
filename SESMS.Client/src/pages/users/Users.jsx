@@ -32,7 +32,9 @@ const Users = () => {
   const [data, setUserList] = useState([]);
   const [selectedId, setSelectedId] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const [userInfo, setUserInfo] = useState();
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState("");
   const [dialogInfo, setDialogInfo] = useState({
     confirmationTitle: "",
     confirmationBody: "",
@@ -60,6 +62,7 @@ const Users = () => {
     columnHelper.accessor("isActive", {
       cell: (info) => {
         const status = info.getValue();
+        console.log(status);
         return (
           <div className=" w-[100px]">
             {status ? (
@@ -78,9 +81,9 @@ const Users = () => {
           <IconButton
             className="flex items-center justify-center gap-5 bg-[#313131]"
             onClick={(e) => {
-              // setEditFacilitator(info.row.original);
-              // setDialogTitle("Update Team");
-              handleOpen();
+              setUserInfo(info.row.original);
+              setDialogTitle("Upate User");
+              hanldeOpenDialog();
             }}
           >
             <PencilSquareIcon className="h-5 w-5" />
@@ -111,9 +114,7 @@ const Users = () => {
   const { status, error, isFetching } = useQuery({
     queryKey: ["getUsers"],
     queryFn: async () => {
-      console.log("before:", isFetching);
       const { data } = await axios.get("http://localhost:3000/users");
-      console.log("after:", isFetching);
 
       setUserList(data);
       return data;
@@ -126,7 +127,9 @@ const Users = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["getUsers"] }),
   });
 
-  const hanldeOpenDialog = () => setOpenDialog(!openDialog);
+  const hanldeOpenDialog = () => {
+    setOpenDialog(!openDialog);
+  };
 
   const handleDelete = async (id) => {
     setOpenConfirmationDialog(true);
@@ -168,7 +171,10 @@ const Users = () => {
             </Button>
             <Button
               className="flex items-center justify-center gap-5 bg-[#244860]"
-              onClick={hanldeOpenDialog}
+              onClick={() => {
+                hanldeOpenDialog();
+                setDialogTitle("New user");
+              }}
             >
               <PlusCircleIcon className="h-5 w-5" />
               New User
@@ -183,7 +189,12 @@ const Users = () => {
         <Table table={table} data={data} />
       )}
 
-      <UserDialog open={openDialog} hanldeOpenDialog={hanldeOpenDialog} />
+      <UserDialog
+        open={openDialog}
+        hanldeOpenDialog={hanldeOpenDialog}
+        dialogTitle={dialogTitle}
+        userInfo={userInfo}
+      />
       <ConfimationDialog
         openConfirmationDialog={openConfirmationDialog}
         handleOpenConfirmationDialog={setOpenConfirmationDialog}
