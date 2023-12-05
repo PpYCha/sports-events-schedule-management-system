@@ -23,6 +23,13 @@ const UserDialog = ({ open, hanldeOpenDialog, userInfo, dialogTitle }) => {
     isActive: false,
   });
 
+  // Populate payload with userInfo if it exists
+  useEffect(() => {
+    if (userInfo) {
+      setPayload({ ...payload, ...userInfo });
+    }
+  }, [userInfo]);
+
   const queryClient = useQueryClient();
 
   const handleInputChange = (e) => {
@@ -35,39 +42,59 @@ const UserDialog = ({ open, hanldeOpenDialog, userInfo, dialogTitle }) => {
     });
   };
 
-  const { mutate, isLoading, error } = useMutation({
+  const createUserMutation = useMutation({
     mutationFn: async (payload) => {
       const response = await axios.post("http://localhost:3000/users", payload);
       return response.data;
     },
     onSuccess: (data) => {
-      // Handle successful mutation response
-      console.log("Data submitted successfully:", data);
-      // Close the dialog or perform other actions
-      queryClient.invalidateQueries({ queryKey: ["getUsers"] });
       hanldeOpenDialog();
+      queryClient.invalidateQueries({ queryKey: ["getUsers"] });
     },
     onError: (error) => {
-      console.error("Error submitting data:", error);
-      // Handle error states or display an error message
+      console.error("Error creating user:", error);
+      // Display error message or handle errors
+    },
+  });
+
+  const updateUserMutation = useMutation({
+    mutationFn: async (payload) => {
+      const response = await axios.put(
+        `http://localhost:3000/users/${payload._id}`,
+
+        payload,
+      );
+      return response.data;
+    },
+    onSuccess: (data) => {
+      hanldeOpenDialog();
+      queryClient.invalidateQueries({ queryKey: ["getUsers"] });
+    },
+    onError: (error) => {
+      console.error("Error updating user:", error);
+      // Display error message or handle errors
     },
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    mutate(payload);
-    // try {
-    //   // Your Axios POST request
-    //   await axios.post("http://localhost:3000/users", {
-    //     ...payload,
-    //   });
 
-    //   // Close the dialog or perform any necessary actions after successful submission
-    //   hanldeOpenDialog();
-    // } catch (error) {
-    //   console.error("Error submitting data:", error);
-    //   // Handle error states or display an error message
-    // }
+    userInfo._id === undefined
+      ? createUserMutation.mutate(payload)
+      : updateUserMutation.mutate(payload);
+
+    handleResetPayload();
+  };
+
+  const handleResetPayload = () => {
+    setPayload({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      userRole: "",
+      isActive: false,
+    });
   };
 
   return (
@@ -131,6 +158,7 @@ const UserDialog = ({ open, hanldeOpenDialog, userInfo, dialogTitle }) => {
             variant="text"
             color="red"
             onClick={() => {
+              handleResetPayload();
               hanldeOpenDialog();
             }}
             className="mr-1"

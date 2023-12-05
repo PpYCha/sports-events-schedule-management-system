@@ -32,7 +32,7 @@ const Users = () => {
   const [data, setUserList] = useState([]);
   const [selectedId, setSelectedId] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [userInfo, setUserInfo] = useState();
+  const [userInfo, setUserInfo] = useState([]);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogInfo, setDialogInfo] = useState({
@@ -62,7 +62,7 @@ const Users = () => {
     columnHelper.accessor("isActive", {
       cell: (info) => {
         const status = info.getValue();
-        console.log(status);
+
         return (
           <div className=" w-[100px]">
             {status ? (
@@ -172,6 +172,7 @@ const Users = () => {
             <Button
               className="flex items-center justify-center gap-5 bg-[#244860]"
               onClick={() => {
+                setUserInfo([]);
                 hanldeOpenDialog();
                 setDialogTitle("New user");
               }}

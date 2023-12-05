@@ -46,7 +46,7 @@ router.post("/", async (req, res) => {
   }
 });
 // Updating One
-router.patch("/:id", getUser, async (req, res) => {
+router.put("/:id", getUser, async (req, res) => {
   if (req.body.firstName != null) {
     res.user.firstName = req.body.firstName;
   }

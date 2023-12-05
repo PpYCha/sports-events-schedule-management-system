@@ -3,7 +3,7 @@ GET http://localhost:3000/users
 
 ###
 
-GET http://localhost:3000/users/65655776698c2647964b9f60
+GET http://localhost:3000/users/656f4cdbdcba0ba7942660c0
 
 ###
 
@@ -27,14 +27,14 @@ DELETE http://localhost:3000/users/6565580cb97d5dc02644245c
 
 ###
 
-PATCH http://localhost:3000/users/65655776698c2647964b9f60
+PATCH http://localhost:3000/users/656f4fd9dcba0ba79426610a
 Content-Type: application/json
 
 {
-     "firstName": "sssss",
-    "lastName": "Diaz",
-    "email": "Coach",
-    "password":"Chess",
-    "userRole":"Chess",
-    "isActive":"Chess"
+     "firstName": "hhhh",
+    "lastName": "admin",
+    "email": "addmin@gmail.com",
+    "password":"1234",
+    "userRole":"Admin",
+    "isActive":true
 }
