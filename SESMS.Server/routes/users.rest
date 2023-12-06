@@ -14,27 +14,27 @@ Content-Type: application/json
 {
     "firstName": "Jawo",
     "lastName": "Diaz",
-    "email": "6@gmail.com",
-    "password":"Chess",
-    "userRole":"Chess",
+    "email": "jawo@gmail.com",
+    "password":"1234",
+    "userRole":"Admin",
     "isActive":true
 }
 
 
 ###
 
-DELETE http://localhost:3000/users/6565580cb97d5dc02644245c
+DELETE http://localhost:3000/users/656f5778c0541334ff22cdb2
 
 ###
 
-PATCH http://localhost:3000/users/656f4fd9dcba0ba79426610a
+PUT http://localhost:3000/users/65655e9bac35bdc67ce8d4c5
 Content-Type: application/json
 
 {
-     "firstName": "hhhh",
+     "firstName": "admin",
     "lastName": "admin",
-    "email": "addmin@gmail.com",
-    "password":"1234",
+    "email": "admin@gmail.com",
+    "password":"jawo4321",
     "userRole":"Admin",
     "isActive":true
 }

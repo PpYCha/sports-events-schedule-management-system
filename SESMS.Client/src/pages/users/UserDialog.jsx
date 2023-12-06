@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import {
   Button,
@@ -12,8 +12,11 @@ import {
   Switch,
 } from "@material-tailwind/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useDropzone } from "react-dropzone";
+import blank_avatar from "../../assets/img/blank_avatar.png";
 
 const UserDialog = ({ open, hanldeOpenDialog, userInfo, dialogTitle }) => {
+  const [selectedImage, setSelectedImage] = useState(null);
   const [payload, setPayload] = useState({
     firstName: "",
     lastName: "",
@@ -21,26 +24,27 @@ const UserDialog = ({ open, hanldeOpenDialog, userInfo, dialogTitle }) => {
     password: "",
     userRole: "",
     isActive: false,
+    // avatar: "",
   });
+
+  const onDrop = useCallback((acceptedFiles) => {
+    // Do something with the files
+    if (acceptedFiles.length > 0) {
+      console.log(acceptedFiles);
+      setPayload({ ...payload, avatar: acceptedFiles });
+      setSelectedImage(URL.createObjectURL(acceptedFiles[0]));
+    }
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   // Populate payload with userInfo if it exists
   useEffect(() => {
     if (userInfo) {
-      setPayload({ ...payload, ...userInfo });
+      setPayload({ ...payload, ...userInfo, password: "" });
     }
   }, [userInfo]);
 
   const queryClient = useQueryClient();
-
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const newValue = type === "checkbox" ? checked : value;
-
-    setPayload({
-      ...payload,
-      [name]: newValue,
-    });
-  };
 
   const createUserMutation = useMutation({
     mutationFn: async (payload) => {
@@ -86,6 +90,16 @@ const UserDialog = ({ open, hanldeOpenDialog, userInfo, dialogTitle }) => {
     handleResetPayload();
   };
 
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
+
+    setPayload({
+      ...payload,
+      [name]: newValue,
+    });
+  };
+
   const handleResetPayload = () => {
     setPayload({
       firstName: "",
@@ -98,11 +112,27 @@ const UserDialog = ({ open, hanldeOpenDialog, userInfo, dialogTitle }) => {
   };
 
   return (
-    <Dialog open={open} handler={hanldeOpenDialog}>
+    <Dialog open={open} handler={hanldeOpenDialog} size={"md"}>
       <form onSubmit={handleSubmit}>
         <DialogHeader>{dialogTitle}</DialogHeader>
         <DialogBody divider>
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-2">
+            {/* <div className="felx mx-auto flex-col gap-5 hover:cursor-pointer">
+              <div {...getRootProps()}>
+                <img
+                  src={selectedImage ? selectedImage : blank_avatar}
+                  alt="nature image"
+                  className="mx-auto h-52 w-52 rounded-full border"
+                />
+
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                  <p>Drop the image here ...</p>
+                ) : (
+                  <p>Drag 'n' drop image here, or click to select image</p>
+                )}
+              </div>
+            </div> */}
             <Input
               label="Firstname"
               value={payload.firstName}
@@ -116,7 +146,7 @@ const UserDialog = ({ open, hanldeOpenDialog, userInfo, dialogTitle }) => {
               onChange={handleInputChange}
             />
             <Input
-              label="Email"
+              label="Email Address"
               value={payload.email}
               name="email"
               type="email"

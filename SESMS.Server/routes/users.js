@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const verifyToken = require("../middleware/authMiddleware");
+const uploadAvatar = require("../middleware/uploadImageMiddleware");
 
 // Getting all
 router.get("/", async (req, res) => {
@@ -18,11 +19,17 @@ router.get("/:id", getUser, (req, res) => {
   console.log("res:", res);
   res.json(res.user);
 });
-// Creating one
+// Creating one  uploadAvatar.single("avatar")
 router.post("/", async (req, res) => {
   try {
     const { firstName, lastName, email, password, userRole, isActive } =
       req.body;
+    // const image = req.file;
+
+    // Check if image is present
+    // if (!image) {
+    //   return res.status(400).json({ message: "Please upload an image." });
+    // }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -37,6 +44,7 @@ router.post("/", async (req, res) => {
       password: hashedPassword,
       userRole,
       isActive,
+      // avatar: image.originalname,
     });
     await newUser.save();
 

@@ -159,7 +159,7 @@ const Users = () => {
 
   return (
     <div>
-      <Card className="mb-5 p-5">
+      <Card className="mb-5  p-5">
         <div className="flex items-center justify-between ">
           <Typography variant="h4" className="">
             List of Users

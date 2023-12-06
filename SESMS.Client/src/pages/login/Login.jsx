@@ -105,7 +105,6 @@ const Login = () => {
                       email: e.target.value,
                     }))
                   }
-                  required
                   error={errors.email === undefined && " " ? false : true}
                 />
                 {errors.email === undefined && " " ? null : (
@@ -142,7 +141,6 @@ const Login = () => {
                         password: e.target.value,
                       }))
                     }
-                    required
                     type={showPassword ? "text" : "password"}
                     error={errors.password === undefined && " " ? false : true}
                   />

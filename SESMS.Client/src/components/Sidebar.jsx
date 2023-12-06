@@ -23,6 +23,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuthStore from "../context/authStore";
 import { jwtDecode } from "jwt-decode";
+import avatar_blank from "../assets/img/blank_avatar.png";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -119,7 +120,7 @@ const Sidebar = () => {
         </ListItem>
       </List>
       <div className=" mt-auto flex items-center gap-4 rounded-lg bg-[#244860] p-4">
-        <Avatar src={avatarImage} alt="avatar" className="border-2 " />
+        <Avatar src={avatar_blank} alt="avatar" className="border-2 " />
         <div>
           <Typography variant="h6" className="text-[#f0f0f0]">
             {currentUser?.firstName + " " + currentUser?.lastName}
