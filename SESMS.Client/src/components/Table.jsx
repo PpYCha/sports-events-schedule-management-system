@@ -9,25 +9,27 @@ import { Card, IconButton, Input } from "@material-tailwind/react";
 import { flexRender } from "@tanstack/react-table";
 import React from "react";
 
-const Table = ({ table, data }) => {
+const Table = ({ table, data, globalFilter, setGlobalFilter }) => {
+  console.log(globalFilter);
   return (
     <Card className="p-5">
       <div className="relative flex w-full max-w-[24rem]">
         <Input
           type="text"
           label="Search"
-          // value={email}
-          // onChange={onChange}
+          value={globalFilter.value}
           className="pr-20"
           containerProps={{
             className: "min-w-0",
           }}
+          onChange={(e) => setGlobalFilter(e.target.value)}
         />
 
         <IconButton className="!absolute right-1 top-1 h-8 rounded">
           <MagnifyingGlassIcon className="h-5 w-5" />
         </IconButton>
       </div>
+
       <table className="mt-5 w-full min-w-max table-auto text-left">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => {

@@ -39,6 +39,7 @@ const Users = () => {
     confirmationTitle: "",
     confirmationBody: "",
   });
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const queryClient = useQueryClient();
 
@@ -108,14 +109,14 @@ const Users = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    debugTable: true,
+    // debugTable: true,
   });
 
   const { status, error, isFetching } = useQuery({
     queryKey: ["getUsers"],
     queryFn: async () => {
       const { data } = await axios.get("http://localhost:3000/users");
-
+      console.log(data);
       setUserList(data);
       return data;
     },
@@ -127,6 +128,22 @@ const Users = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["getUsers"] }),
   });
 
+  useEffect(() => {
+    const filteredUsers = data.filter((user) => {
+      const filter = globalFilter.toLowerCase();
+      const firstNameMatch = user.firstName.toLowerCase().includes(filter);
+      const lastNameMatch = user.lastName.toLowerCase().includes(filter);
+      const emailMatch = user.email.toLowerCase().includes(filter);
+      const isActiveMatch = user.isActive
+        ? String(user.isActive).toLowerCase().includes(filter)
+        : false;
+
+      return firstNameMatch || lastNameMatch || isActiveMatch || emailMatch;
+    });
+
+    setUserList(filteredUsers);
+  }, [globalFilter]);
+
   const hanldeOpenDialog = () => {
     setOpenDialog(!openDialog);
   };
@@ -137,7 +154,6 @@ const Users = () => {
       confirmationTitle: "Delete",
       confirmationBody: `Do you want to delete ${id} ?`,
     });
-    // Other necessary operations when opening the dialog
   };
 
   const handleConfirmAction = async () => {
@@ -187,7 +203,12 @@ const Users = () => {
       {isFetching ? (
         <Spinner className="mx-auto my-auto h-16 w-16 text-gray-900/50" />
       ) : (
-        <Table table={table} data={data} />
+        <Table
+          table={table}
+          data={data}
+          globalFilter={globalFilter}
+          setGlobalFilter={setGlobalFilter}
+        />
       )}
 
       <UserDialog

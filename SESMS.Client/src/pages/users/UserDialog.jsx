@@ -134,7 +134,7 @@ const UserDialog = ({ open, hanldeOpenDialog, userInfo, dialogTitle }) => {
               </div>
             </div> */}
             <Input
-              label="Firstname"
+              label={"Firstname"}
               value={payload.firstName}
               name="firstName"
               onChange={handleInputChange}
