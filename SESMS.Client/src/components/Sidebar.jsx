@@ -36,21 +36,21 @@ const Sidebar = () => {
       text: "Dashboard",
       link: "dashboard",
     },
-    {
-      icon: UsersIcon,
-      text: "Facilitators",
-      link: "facilitators",
-    },
-    {
-      icon: UserGroupIcon,
-      text: "Players",
-      link: "players",
-    },
-    {
-      icon: FlagIcon,
-      text: "Teams",
-      link: "teams",
-    },
+    // {
+    //   icon: UsersIcon,
+    //   text: "Facilitators",
+    //   link: "facilitators",
+    // },
+    // {
+    //   icon: UserGroupIcon,
+    //   text: "Players",
+    //   link: "players",
+    // },
+    // {
+    //   icon: FlagIcon,
+    //   text: "Teams",
+    //   link: "teams",
+    // },
     {
       icon: CubeTransparentIcon,
       text: "Sportevents",
