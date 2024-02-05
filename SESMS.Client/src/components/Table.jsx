@@ -13,7 +13,7 @@ const Table = ({ table, data, globalFilter, setGlobalFilter }) => {
   console.log(globalFilter);
   return (
     <Card className="p-5">
-      <div className="relative flex w-full max-w-[24rem]">
+      {/* <div className="relative flex w-full max-w-[24rem]">
         <Input
           type="text"
           label="Search"
@@ -28,7 +28,7 @@ const Table = ({ table, data, globalFilter, setGlobalFilter }) => {
         <IconButton className="!absolute right-1 top-1 h-8 rounded">
           <MagnifyingGlassIcon className="h-5 w-5" />
         </IconButton>
-      </div>
+      </div> */}
 
       <table className="mt-5 w-full min-w-max table-auto text-left">
         <thead>

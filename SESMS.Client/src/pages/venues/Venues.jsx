@@ -53,7 +53,7 @@ const Venues = () => {
   const [open, setOpen] = useState(false);
 
   const table = useReactTable({
-    data,
+    data: data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -85,7 +85,7 @@ const Venues = () => {
         </div>
       </Card>
 
-      <Table table={table} data={data} />
+      {data && <Table table={table} data={data} />}
 
       <VenueDialog open={open} handleOpen={handleOpen} />
     </div>
