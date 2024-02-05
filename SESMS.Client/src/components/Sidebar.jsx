@@ -36,11 +36,12 @@ const Sidebar = () => {
       text: "Dashboard",
       link: "dashboard",
     },
-    {
-      icon: UsersIcon,
-      text: "Facilitators",
-      link: "facilitators",
-    },
+    // {
+    //   icon: UsersIcon,
+    //   text: "Facilitators",
+    //   link: "facilitators",
+    // },
+
     // {
     //   icon: UserGroupIcon,
     //   text: "Players",
