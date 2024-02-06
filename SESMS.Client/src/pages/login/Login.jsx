@@ -16,6 +16,7 @@ import logoImage from "../../assets/img/uepLogo.png";
 import useAuthStore from "../../context/authStore";
 import axios from "axios";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import { defaultUrl } from "../../utils/defaultUrl";
 
 const Login = () => {
   const [payload, setPayload] = useState({
@@ -39,7 +40,7 @@ const Login = () => {
 
     if (!validationErrors.email && !validationErrors.password) {
       try {
-        const res = await axios.post("http://localhost:3000/login", {
+        const res = await axios.post(`${defaultUrl}login`, {
           ...payload,
         });
         if (res.data.email || res.data.password) {
