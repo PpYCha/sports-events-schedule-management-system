@@ -36,11 +36,11 @@ const Sidebar = () => {
       text: "Dashboard",
       link: "dashboard",
     },
-    {
-      icon: UsersIcon,
-      text: "Facilitators",
-      link: "facilitators",
-    },
+    // {
+    //   icon: UsersIcon,
+    //   text: "Facilitators",
+    //   link: "facilitators",
+    // },
     // {
     //   icon: UserGroupIcon,
     //   text: "Players",
@@ -71,11 +71,11 @@ const Sidebar = () => {
       text: "Users",
       link: "users",
     },
-    {
-      icon: Cog8ToothIcon,
-      text: "Settings",
-      link: "settings",
-    },
+    // {
+    //   icon: Cog8ToothIcon,
+    //   text: "Settings",
+    //   link: "settings",
+    // },
   ];
 
   useEffect(() => {

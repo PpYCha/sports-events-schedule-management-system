@@ -1,11 +1,17 @@
 import {
+  ChartBarIcon,
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  CodeBracketIcon,
+  CodeBracketSquareIcon,
   MagnifyingGlassIcon,
+  PencilSquareIcon,
   PlusCircleIcon,
   PrinterIcon,
+  StarIcon,
+  UserGroupIcon,
 } from "@heroicons/react/24/solid";
 import {
   Button,
@@ -33,32 +39,81 @@ import {
 import Table from "../../components/Table";
 import { sportsEventData } from "../../data/MOCK_DATA";
 import SportsEventDialog from "./SportsEventDialog";
+import { useNavigate } from "react-router-dom";
 
 const columnHelper = createColumnHelper();
 
-const columns = [
-  columnHelper.accessor("sportEventName", {
-    cell: (info) => info.getValue(),
-    header: () => <span>Sport Event Name</span>,
-  }),
-
-  columnHelper.accessor("facilatator", {
-    cell: (info) => info.getValue(),
-    header: () => <span>Facilatator</span>,
-  }),
-  columnHelper.accessor("venue", {
-    cell: (info) => info.getValue(),
-    header: () => <span>Venue</span>,
-  }),
-  columnHelper.accessor("numberOfParticipants", {
-    cell: (info) => info.getValue(),
-    header: () => <span>Number Of Participants</span>,
-  }),
-];
 
 const SportsEvents = () => {
   const [data, setUserList] = useState(sportsEventData);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate()
+
+  const columns = [
+    columnHelper.accessor("sportEventName", {
+      cell: (info) => info.getValue(),
+      header: () => <span>Sport Event</span>,
+    }),
+  
+    columnHelper.accessor("facilatator", {
+      cell: (info) => info.getValue(),
+      header: () => <span>Descripition</span>,
+    }),
+    columnHelper.accessor("venue", {
+      cell: (info) => info.getValue(),
+      header: () => <span>Game</span>,
+    }),
+    columnHelper.accessor("action", {
+      cell: (info) => (
+        <div className="flex gap-4">
+          <IconButton
+            className="flex items-center justify-center gap-5 "
+            variant="text"
+            // onClick={(e) => {
+            //   setUserInfo(info.row.original);
+            //   setDialogTitle("Upate User");
+            //   hanldeOpenDialog();
+            // }}
+          >
+            <CodeBracketIcon className="h-5 w-5" />
+          </IconButton>
+          <IconButton
+            className="flex items-center justify-center gap-5 "
+            variant="text"
+            // onClick={(e) => {
+            //   setUserInfo(info.row.original);
+            //   setDialogTitle("Upate User");
+            //   hanldeOpenDialog();
+            // }}
+          >
+            <ChartBarIcon className="h-5 w-5" />
+          </IconButton>
+          <IconButton
+            className="flex items-center justify-center gap-5 "
+            variant="text"
+            onClick={(e) => {
+              navigate("/sportevents/1/participants")
+            }}
+          >
+            <UserGroupIcon className="h-5 w-5" />
+          </IconButton>
+          <IconButton
+            className="flex items-center justify-center gap-5 "
+            variant="text"
+            // onClick={(e) => {
+            //   setUserInfo(info.row.original);
+            //   setDialogTitle("Upate User");
+            //   hanldeOpenDialog();
+            // }}
+          >
+            <StarIcon className="h-5 w-5" />
+          </IconButton>
+        </div>
+      ),
+      header: () => <span>Actions</span>,
+    }),
+  ];
+  
 
   const table = useReactTable({
     data,
@@ -87,7 +142,7 @@ const SportsEvents = () => {
               onClick={handleOpen}
             >
               <PlusCircleIcon className="h-5 w-5" />
-              New Venue
+              New Event
             </Button>
           </div>
         </div>

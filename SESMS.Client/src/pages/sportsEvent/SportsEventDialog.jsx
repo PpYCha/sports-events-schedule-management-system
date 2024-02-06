@@ -16,10 +16,10 @@ const SportsEventDialog = ({ open, handleOpen }) => {
       <DialogHeader>New Sport Event</DialogHeader>
       <DialogBody divider>
         <div className="flex flex-col gap-5">
-          <Input label="Sport Event Name" />
-          <Input label="Facilatator" />
-          <Input label="Venue" />
-          <Input label="Number of Participants" />
+          <Input label="Sport Event" />
+          <Input label="Description" />
+          <Input label="Game" />
+          {/* <Input label="Start time" /> */}
         </div>
       </DialogBody>
       <DialogFooter>
