@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Models\Sport;
 use Illuminate\Http\Request;
 
-class AuthController extends Controller
+class SportController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -33,7 +35,7 @@ class AuthController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Sport $sport)
     {
         //
     }
@@ -41,7 +43,7 @@ class AuthController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Sport $sport)
     {
         //
     }
@@ -49,7 +51,7 @@ class AuthController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Sport $sport)
     {
         //
     }
@@ -57,7 +59,7 @@ class AuthController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Sport $sport)
     {
         //
     }

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Coach;
+use App\Http\Controllers\Controller;
+use App\Models\Athlete;
 use Illuminate\Http\Request;
 
-class CoachController extends Controller
+class AthleteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,6 +14,8 @@ class CoachController extends Controller
     public function index()
     {
         //
+        $data = Athlete::all();
+        return response()->json(['data' => $data]);
     }
 
     /**
@@ -34,7 +37,7 @@ class CoachController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Coach $coach)
+    public function show(Athlete $athlete)
     {
         //
     }
@@ -42,7 +45,7 @@ class CoachController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Coach $coach)
+    public function edit(Athlete $athlete)
     {
         //
     }
@@ -50,7 +53,7 @@ class CoachController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Coach $coach)
+    public function update(Request $request, Athlete $athlete)
     {
         //
     }
@@ -58,7 +61,7 @@ class CoachController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Coach $coach)
+    public function destroy(Athlete $athlete)
     {
         //
     }

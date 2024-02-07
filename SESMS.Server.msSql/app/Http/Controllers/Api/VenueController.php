@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Athlete;
+use App\Http\Controllers\Controller;
+use App\Models\Venue;
 use Illuminate\Http\Request;
 
-class AthleteController extends Controller
+class VenueController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +35,7 @@ class AthleteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Athlete $athlete)
+    public function show(Venue $venue)
     {
         //
     }
@@ -42,7 +43,7 @@ class AthleteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Athlete $athlete)
+    public function edit(Venue $venue)
     {
         //
     }
@@ -50,7 +51,7 @@ class AthleteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Athlete $athlete)
+    public function update(Request $request, Venue $venue)
     {
         //
     }
@@ -58,7 +59,7 @@ class AthleteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Athlete $athlete)
+    public function destroy(Venue $venue)
     {
         //
     }
