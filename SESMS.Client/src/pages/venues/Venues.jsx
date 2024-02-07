@@ -4,8 +4,10 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   MagnifyingGlassIcon,
+  PencilSquareIcon,
   PlusCircleIcon,
   PrinterIcon,
+  TrashIcon,
 } from "@heroicons/react/24/solid";
 import {
   Button,
@@ -18,9 +20,10 @@ import {
   Input,
   Option,
   Select,
+  Spinner,
   Typography,
 } from "@material-tailwind/react";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import {
   createColumnHelper,
@@ -33,34 +36,111 @@ import {
 import Table from "../../components/Table";
 import { venuesData } from "../../data/MOCK_DATA";
 import VenueDialog from "./VenueDialog";
+import axios from "axios";
+import { defaultUrl } from "../../utils/defaultUrl";
+import ConfimationDialog from "../../components/ConfimationDialog";
 
 const columnHelper = createColumnHelper();
 
-const columns = [
-  columnHelper.accessor("venue", {
-    cell: (info) => info.getValue(),
-    header: () => <span>Venue</span>,
-  }),
-
-  columnHelper.accessor("location", {
-    cell: (info) => info.getValue(),
-    header: () => <span>Location</span>,
-  }),
-];
-
 const Venues = () => {
-  const [data, setUserList] = useState(venuesData);
-  const [open, setOpen] = useState(false);
+  const [venueList, setVenueList] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [Loading, setLoading] = useState(false);
+  const [venueInfo, setVenueInfo] = useState([]);
+  const [dialogTitle, setDialogTitle] = useState("");
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const [dialogInfo, setDialogInfo] = useState({
+    confirmationTitle: "",
+    confirmationBody: "",
+  });
+  const [selectedId, setSelectedId] = useState([]);
+
+  useEffect(() => {
+    fetchVenueList();
+  }, []);
+
+  const fetchVenueList = async () => {
+    setLoading(true);
+    const res = await axios.get(`${defaultUrl}venues`);
+    setVenueList(res.data.data);
+
+    setLoading(false);
+  };
+
+  // Rest of your component...
+
+  const columns = [
+    columnHelper.accessor("venueName", {
+      cell: (info) => info.getValue(),
+      header: () => <span>Venue</span>,
+    }),
+
+    columnHelper.accessor("venueLocation", {
+      cell: (info) => info.getValue(),
+      header: () => <span>Location</span>,
+    }),
+    columnHelper.accessor("action", {
+      cell: (info) => (
+        <div className="flex gap-4">
+          <IconButton
+            className="flex items-center justify-center gap-5 bg-[#313131]"
+            onClick={(e) => {
+              setVenueInfo(info.row.original);
+
+              setDialogTitle("Upate Venue");
+              hanldeOpenDialog();
+            }}
+          >
+            <PencilSquareIcon className="h-5 w-5" />
+          </IconButton>
+          <IconButton
+            className="flex items-center justify-center gap-5 bg-red-500"
+            onClick={(e) => {
+              handleDelete(info.row.original.venueId);
+              setSelectedId(info.row.original);
+            }}
+          >
+            <TrashIcon className="h-5 w-5" />
+          </IconButton>
+        </div>
+      ),
+      header: () => <span>Actions</span>,
+    }),
+  ];
 
   const table = useReactTable({
-    data,
+    data: venueList,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     debugTable: true,
   });
 
-  const handleOpen = () => setOpen(!open);
+  const hanldeOpenDialog = () => {
+    setOpenDialog(!openDialog);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenConfirmationDialog(false); // Close dialog without taking any action
+  };
+
+  const handleDelete = async (id) => {
+    setOpenConfirmationDialog(true);
+    setDialogInfo({
+      confirmationTitle: "Delete",
+      confirmationBody: `Do you want to delete ${id} ?`,
+    });
+  };
+
+  const handleConfirmAction = async () => {
+    try {
+      await axios.delete(`${defaultUrl}venues/${selectedId.venueId}`);
+      fetchVenueList();
+      setOpenConfirmationDialog(false); // Close dialog after action completion
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
@@ -76,7 +156,10 @@ const Venues = () => {
             </Button>
             <Button
               className="flex items-center justify-center gap-5 bg-[#244860]"
-              onClick={handleOpen}
+              onClick={() => {
+                hanldeOpenDialog();
+                setDialogTitle("New Venue");
+              }}
             >
               <PlusCircleIcon className="h-5 w-5" />
               New Venue
@@ -84,10 +167,27 @@ const Venues = () => {
           </div>
         </div>
       </Card>
+      {Loading ? (
+        <Spinner className="mx-auto my-auto h-16 w-16 text-gray-900/50" />
+      ) : (
+        <>{venueList && <Table table={table} data={venueList} />}</>
+      )}
 
-      <Table table={table} data={data} />
+      <VenueDialog
+        open={openDialog}
+        hanldeOpenDialog={hanldeOpenDialog}
+        dialogTitle={dialogTitle}
+        venueInfo={venueInfo}
+      />
 
-      <VenueDialog open={open} handleOpen={handleOpen} />
+      <ConfimationDialog
+        openConfirmationDialog={openConfirmationDialog}
+        handleOpenConfirmationDialog={setOpenConfirmationDialog}
+        confirmationTitle={dialogInfo.confirmationTitle}
+        confirmationBody={dialogInfo.confirmationBody}
+        handleConfirmAction={handleConfirmAction}
+        handleCloseDialog={handleCloseDialog}
+      />
     </div>
   );
 };

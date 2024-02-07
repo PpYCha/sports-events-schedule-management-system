@@ -61,21 +61,21 @@ const Sidebar = () => {
       text: "Venues",
       link: "venues",
     },
-    {
-      icon: CalendarIcon,
-      text: "Schedules",
-      link: "schedules",
-    },
+    // {
+    //   icon: CalendarIcon,
+    //   text: "Schedules",
+    //   link: "schedules",
+    // },
     {
       icon: UsersIcon,
       text: "Users",
       link: "users",
     },
-    {
-      icon: Cog8ToothIcon,
-      text: "Settings",
-      link: "settings",
-    },
+    // {
+    //   icon: Cog8ToothIcon,
+    //   text: "Settings",
+    //   link: "settings",
+    // },
   ];
 
   useEffect(() => {

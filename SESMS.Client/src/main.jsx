@@ -24,6 +24,7 @@ import { Home } from "./home/Home.jsx";
 import useAuthStore from "./context/authStore.js";
 import Users from "./pages/users/Users.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ParticipantsForm } from "./pages/sportsEvent/ParticipantsForm.jsx";
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -45,35 +46,43 @@ const router = createBrowserRouter(
             </ProtectedRoute>
           }
         />
-        <Route
+        {/* <Route
           path="facilitators"
           element={
             <ProtectedRoute>
               <Facilitators />
             </ProtectedRoute>
           }
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="players"
           element={
             <ProtectedRoute>
               <Players />
             </ProtectedRoute>
           }
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="teams"
           element={
             <ProtectedRoute>
               <Teams />
             </ProtectedRoute>
           }
-        />
+        /> */}
         <Route
           path="sportevents"
           element={
             <ProtectedRoute>
               <SportsEvents />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="sportevents/:id/participants"
+          element={
+            <ProtectedRoute>
+              <ParticipantsForm />
             </ProtectedRoute>
           }
         />
@@ -101,14 +110,14 @@ const router = createBrowserRouter(
             </ProtectedRoute>
           }
         />
-        <Route
+        {/* <Route
           path="settings"
           element={
             <ProtectedRoute>
               <Settings />
             </ProtectedRoute>
           }
-        />
+        /> */}
       </Route>
     </Route>,
   ),
