@@ -8,28 +8,97 @@ import {
   Option,
   Select,
 } from "@material-tailwind/react";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { defaultUrl } from "../../utils/defaultUrl";
 
-const VenueDialog = ({ open, handleOpen }) => {
+const VenueDialog = ({ open, hanldeOpenDialog, dialogTitle, venueInfo }) => {
+  const [payload, setPayload] = useState({
+    venueName: "",
+    venueLocation: "",
+  });
+
+  // Populate payload with venueInfo if it exists
+  useEffect(() => {
+    if (venueInfo) {
+      setPayload({ ...payload, ...venueInfo });
+    }
+  }, [venueInfo]);
+
+  const postData = async () => {
+    const result = await axios.post(`${defaultUrl}venues`, payload);
+    hanldeOpenDialog();
+  };
+
+  const updateData = async () => {
+    const result = await axios.put(
+      `${defaultUrl}venues/${payload.venueId}`,
+      payload,
+    );
+    hanldeOpenDialog();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Venue Info:", venueInfo);
+
+    if (venueInfo.venueId === undefined) {
+      console.log("Calling postData()");
+      postData();
+    } else {
+      console.log("Calling updateData()");
+      updateData();
+    }
+
+    handleResetPayload();
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
+
+    setPayload({
+      ...payload,
+      [name]: newValue,
+    });
+  };
+
+  const handleResetPayload = () => {
+    setPayload({
+      venueName: "",
+      venueLocation: "",
+    });
+  };
+
   return (
-    <Dialog open={open} handler={handleOpen}>
-      <DialogHeader>New Venue</DialogHeader>
+    <Dialog open={open} handler={hanldeOpenDialog}>
+      <DialogHeader>{dialogTitle}</DialogHeader>
       <DialogBody divider>
         <div className="flex flex-col gap-5">
-          <Input label="Venue" />
-          <Input label="Location" />
+          <Input
+            label={"Venue"}
+            value={payload.venueName}
+            name="venueName"
+            onChange={handleInputChange}
+          />
+          <Input
+            label={"Location"}
+            value={payload.venueLocation}
+            name="venueLocation"
+            onChange={handleInputChange}
+          />
         </div>
       </DialogBody>
       <DialogFooter>
         <Button
           variant="text"
           color="red"
-          onClick={handleOpen}
+          onClick={hanldeOpenDialog}
           className="mr-1"
         >
           <span>Cancel</span>
         </Button>
-        <Button variant="gradient" color="green" onClick={handleOpen}>
+        <Button variant="gradient" color="green" onClick={handleSubmit}>
           <span>Save</span>
         </Button>
       </DialogFooter>

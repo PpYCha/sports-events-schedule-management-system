@@ -5,12 +5,12 @@ import {
   ChevronRightIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
-import { Card, IconButton, Input } from "@material-tailwind/react";
+import { Card, IconButton, Input, Typography } from "@material-tailwind/react";
 import { flexRender } from "@tanstack/react-table";
 import React from "react";
 
 const Table = ({ table, data, globalFilter, setGlobalFilter }) => {
-  console.log(globalFilter);
+  // console.log(globalFilter);
   return (
     <Card className="p-5">
       {/* <div className="relative flex w-full max-w-[24rem]">
@@ -57,27 +57,40 @@ const Table = ({ table, data, globalFilter, setGlobalFilter }) => {
           })}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row, index) => {
-            const isLast = index === data.length - 1;
-            const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
-            // console.log(row);
-            return (
-              <tr key={row.id} className="">
-                {row.getVisibleCells().map((cell) => {
-                  return (
-                    <td key={cell.id} className={classes}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
+          {data.length === 0 ? null : (
+            <>
+              {table.getRowModel().rows.map((row, index) => {
+                const isLast = index === data.length - 1;
+                const classes = isLast
+                  ? "p-4"
+                  : "p-4 border-b border-blue-gray-50";
+                // console.log(row);
+                return (
+                  <tr key={row.id} className="">
+                    {row.getVisibleCells().map((cell) => {
+                      return (
+                        <td key={cell.id} className={classes}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </>
+          )}
         </tbody>
       </table>
+
+      {data.length === 0 ? (
+        <div className="m-10 w-full text-center text-lg">
+          <Typography variant="h2">No data</Typography>
+        </div>
+      ) : null}
+
       <div className="flex items-center justify-center gap-2 p-5">
         <button
           className="rounded border p-1"

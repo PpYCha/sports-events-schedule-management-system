@@ -43,18 +43,17 @@ import { useNavigate } from "react-router-dom";
 
 const columnHelper = createColumnHelper();
 
-
 const SportsEvents = () => {
   const [data, setUserList] = useState(sportsEventData);
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const columns = [
     columnHelper.accessor("sportEventName", {
       cell: (info) => info.getValue(),
       header: () => <span>Sport Event</span>,
     }),
-  
+
     columnHelper.accessor("facilatator", {
       cell: (info) => info.getValue(),
       header: () => <span>Descripition</span>,
@@ -92,7 +91,7 @@ const SportsEvents = () => {
             className="flex items-center justify-center gap-5 "
             variant="text"
             onClick={(e) => {
-              navigate("/sportevents/1/participants")
+              navigate("/sportevents/1/participants");
             }}
           >
             <UserGroupIcon className="h-5 w-5" />
@@ -113,7 +112,6 @@ const SportsEvents = () => {
       header: () => <span>Actions</span>,
     }),
   ];
-  
 
   const table = useReactTable({
     data,

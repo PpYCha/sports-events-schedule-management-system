@@ -14,6 +14,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDropzone } from "react-dropzone";
 import blank_avatar from "../../assets/img/blank_avatar.png";
+import { defaultUrl } from "../../utils/defaultUrl";
 
 const UserDialog = ({ open, hanldeOpenDialog, userInfo, dialogTitle }) => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -48,7 +49,7 @@ const UserDialog = ({ open, hanldeOpenDialog, userInfo, dialogTitle }) => {
 
   const createUserMutation = useMutation({
     mutationFn: async (payload) => {
-      const response = await axios.post("http://localhost:3000/users", payload);
+      const response = await axios.post(`${defaultUrl}users`, payload);
       return response.data;
     },
     onSuccess: (data) => {
@@ -64,7 +65,7 @@ const UserDialog = ({ open, hanldeOpenDialog, userInfo, dialogTitle }) => {
   const updateUserMutation = useMutation({
     mutationFn: async (payload) => {
       const response = await axios.put(
-        `http://localhost:3000/users/${payload._id}`,
+        `${defaultUrl}users/${payload.userId}`,
 
         payload,
       );
@@ -83,7 +84,7 @@ const UserDialog = ({ open, hanldeOpenDialog, userInfo, dialogTitle }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    userInfo._id === undefined
+    userInfo.userId === undefined
       ? createUserMutation.mutate(payload)
       : updateUserMutation.mutate(payload);
 
@@ -93,7 +94,7 @@ const UserDialog = ({ open, hanldeOpenDialog, userInfo, dialogTitle }) => {
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? checked : value;
-
+    console.log(newValue);
     setPayload({
       ...payload,
       [name]: newValue,

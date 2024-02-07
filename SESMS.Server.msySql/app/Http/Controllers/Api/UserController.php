@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -48,7 +49,7 @@ class UserController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['error' => $e->validator->errors()]);
         } catch (\Exception $e) {
-            return response()->json(['error', 'Something went wrong'], 500);
+            return response()->json(['error', 'Something went wrong', $e], 500);
         }
     }
 
@@ -81,7 +82,9 @@ class UserController extends Controller
                 'isActive' => 'nullable|boolean',
             ]);
 
-            $user->update($request->all());
+            // $user->update($request->except('userId'));
+
+            $user->fill($request->except('userId'))->save();
 
             return response()->json(['data' => $user], 200);
 

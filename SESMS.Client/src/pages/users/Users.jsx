@@ -25,6 +25,7 @@ import Table from "../../components/Table";
 import UserDialog from "./UserDialog";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ConfimationDialog from "../../components/ConfimationDialog";
+import { defaultUrl } from "../../utils/defaultUrl";
 
 const columnHelper = createColumnHelper();
 
@@ -65,8 +66,8 @@ const Users = () => {
         const status = info.getValue();
 
         return (
-          <div className=" w-[100px]">
-            {status ? (
+          <div className=" w-[100px] text-center">
+            {status === "1" ? (
               <Chip size="sm" value="Active" color="green" />
             ) : (
               <Chip size="sm" value="Not Active" color="red" />
@@ -115,16 +116,15 @@ const Users = () => {
   const { status, error, isFetching } = useQuery({
     queryKey: ["getUsers"],
     queryFn: async () => {
-      const { data } = await axios.get("http://localhost:3000/users");
-      console.log(data);
-      setUserList(data);
-      return data;
+      const { data } = await axios.get(`${defaultUrl}users`);
+
+      setUserList(data.data);
+      return data.data;
     },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: () =>
-      axios.delete(`http://localhost:3000/users/${selectedId._id}`),
+    mutationFn: () => axios.delete(`${defaultUrl}users/${selectedId._id}`),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["getUsers"] }),
   });
 

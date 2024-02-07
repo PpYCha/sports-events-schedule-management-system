@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AthleteController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\VenueController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,5 +23,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('athletes', AthleteController::class);
 Route::apiResource('users', UserController::class);
+Route::apiResource('venues', VenueController::class);
 
 Route::post('/login', [AuthController::class, 'login']);

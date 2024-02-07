@@ -61,11 +61,11 @@ const Sidebar = () => {
       text: "Venues",
       link: "venues",
     },
-    {
-      icon: CalendarIcon,
-      text: "Schedules",
-      link: "schedules",
-    },
+    // {
+    //   icon: CalendarIcon,
+    //   text: "Schedules",
+    //   link: "schedules",
+    // },
     {
       icon: UsersIcon,
       text: "Users",
