@@ -45,7 +45,7 @@ const columnHelper = createColumnHelper();
 const Venues = () => {
   const [venueList, setVenueList] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [Loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [venueInfo, setVenueInfo] = useState([]);
   const [dialogTitle, setDialogTitle] = useState("");
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
@@ -66,8 +66,6 @@ const Venues = () => {
 
     setLoading(false);
   };
-
-  // Rest of your component...
 
   const columns = [
     columnHelper.accessor("venueName", {
@@ -167,7 +165,7 @@ const Venues = () => {
           </div>
         </div>
       </Card>
-      {Loading ? (
+      {loading ? (
         <Spinner className="mx-auto my-auto h-16 w-16 text-gray-900/50" />
       ) : (
         <>{venueList && <Table table={table} data={venueList} />}</>

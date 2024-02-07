@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Venue;
+use App\Models\SportEvent;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 
-class VenueController extends Controller
+class SportEventController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-        $data = Venue::all();
+        //
+        $data = SportEvent::all();
 
         return response()->json(['data' => $data], 200);
     }
@@ -38,11 +38,12 @@ class VenueController extends Controller
         try {
 
             $request->validate([
-                'venueName' => 'nullable|string',
-                'venueLocation' => 'nullable|string',
+                'sportEvent' => 'nullable|string',
+                'description' => 'nullable|string',
+                'sport' => 'nullable|string',
             ]);
 
-            $data = Venue::create($request->all());
+            $data = SportEvent::create($request->all());
             return response()->json(['data' => $data], 201);
         } catch (ValidationException $e) {
             return response()->json(['error' => $e->validator->errors()]);
@@ -59,16 +60,16 @@ class VenueController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Venue $venue)
+    public function show(SportEvent $sportEvent)
     {
         //
-        return response()->json(['data', $venue], 200);
+        return response()->json(['data', $sportEvent], 200);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Venue $venue)
+    public function edit(SportEvent $sportEvent)
     {
         //
     }
@@ -76,21 +77,21 @@ class VenueController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Venue $venue)
+    public function update(Request $request, SportEvent $sportEvent)
     {
         //
         try {
             $request->validate([
-                'venueName' => 'nullable|string',
-                'venueLocation' => 'nullable|string',
-
+                'sportEvent' => 'nullable|string',
+                'description' => 'nullable|string',
+                'sport' => 'nullable|string',
             ]);
 
-            
 
-            $venue->fill($request->except('venueId'))->save();
 
-            return response()->json(['data' => $venue], 200);
+            $sportEvent->fill($request->except('sportEventId'))->save();
+
+            return response()->json(['data' => $sportEvent], 200);
 
         } catch (ValidationException $e) {
             // Handle validation errors
@@ -109,14 +110,14 @@ class VenueController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Venue $venue)
+    public function destroy(SportEvent $sportEvent)
     {
         //
         try {
-            $venue->delete();
+            $sportEvent->delete();
 
             // Return a success response
-            return response()->json(['data' => $venue], 200);
+            return response()->json(['data' => $sportEvent], 200);
 
         } catch (\Throwable $e) {
             // Handle other unexpected errors

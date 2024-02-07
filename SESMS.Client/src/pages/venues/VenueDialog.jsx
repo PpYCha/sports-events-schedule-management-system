@@ -18,7 +18,6 @@ const VenueDialog = ({ open, hanldeOpenDialog, dialogTitle, venueInfo }) => {
     venueLocation: "",
   });
 
-  // Populate payload with venueInfo if it exists
   useEffect(() => {
     if (venueInfo) {
       setPayload({ ...payload, ...venueInfo });

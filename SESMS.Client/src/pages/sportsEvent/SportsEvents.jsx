@@ -11,6 +11,7 @@ import {
   PlusCircleIcon,
   PrinterIcon,
   StarIcon,
+  TrashIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/solid";
 import {
@@ -24,9 +25,10 @@ import {
   Input,
   Option,
   Select,
+  Spinner,
   Typography,
 } from "@material-tailwind/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   createColumnHelper,
@@ -40,25 +42,50 @@ import Table from "../../components/Table";
 import { sportsEventData } from "../../data/MOCK_DATA";
 import SportsEventDialog from "./SportsEventDialog";
 import { useNavigate } from "react-router-dom";
+import ConfimationDialog from "../../components/ConfimationDialog";
+import axios from "axios";
+import { defaultUrl } from "../../utils/defaultUrl";
 
 const columnHelper = createColumnHelper();
 
 const SportsEvents = () => {
-  const [data, setUserList] = useState(sportsEventData);
-  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const [sportEventList, setSportEventList] = useState([]);
+  const [sportEventInfo, setsportEventInfo] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState("");
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const [dialogInfo, setDialogInfo] = useState({
+    confirmationTitle: "",
+    confirmationBody: "",
+  });
+  const [selectedId, setSelectedId] = useState([]);
+
+  useEffect(() => {
+    fetchSportEventList();
+  }, []);
+
+  const fetchSportEventList = async () => {
+    setLoading(true);
+    const res = await axios.get(`${defaultUrl}sport-events`);
+    console.log(res);
+    setSportEventList(res.data.data);
+
+    setLoading(false);
+  };
 
   const columns = [
-    columnHelper.accessor("sportEventName", {
+    columnHelper.accessor("sportEvent", {
       cell: (info) => info.getValue(),
       header: () => <span>Sport Event</span>,
     }),
 
-    columnHelper.accessor("facilatator", {
+    columnHelper.accessor("description", {
       cell: (info) => info.getValue(),
       header: () => <span>Descripition</span>,
     }),
-    columnHelper.accessor("venue", {
+    columnHelper.accessor("sport", {
       cell: (info) => info.getValue(),
       header: () => <span>Game</span>,
     }),
@@ -107,6 +134,26 @@ const SportsEvents = () => {
           >
             <StarIcon className="h-5 w-5" />
           </IconButton>
+          <IconButton
+            className="flex items-center justify-center gap-5 bg-[#313131]"
+            onClick={(e) => {
+              setsportEventInfo(info.row.original);
+
+              setDialogTitle("Upate Event");
+              hanldeOpenDialog();
+            }}
+          >
+            <PencilSquareIcon className="h-5 w-5" />
+          </IconButton>
+          <IconButton
+            className="flex items-center justify-center gap-5 bg-red-500"
+            onClick={(e) => {
+              handleDelete(info.row.original.sportEventId);
+              setSelectedId(info.row.original);
+            }}
+          >
+            <TrashIcon className="h-5 w-5" />
+          </IconButton>
         </div>
       ),
       header: () => <span>Actions</span>,
@@ -114,14 +161,40 @@ const SportsEvents = () => {
   ];
 
   const table = useReactTable({
-    data,
+    data: sportEventList,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     debugTable: true,
   });
 
-  const handleOpen = () => setOpen(!open);
+  const hanldeOpenDialog = () => {
+    setOpenDialog(!openDialog);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenConfirmationDialog(false); // Close dialog without taking any action
+  };
+
+  const handleDelete = async (id) => {
+    setOpenConfirmationDialog(true);
+    setDialogInfo({
+      confirmationTitle: "Delete",
+      confirmationBody: `Do you want to delete ${id} ?`,
+    });
+  };
+
+  const handleConfirmAction = async () => {
+    try {
+      await axios.delete(
+        `${defaultUrl}sport-events/${selectedId.sportEventId}`,
+      );
+      fetchSportEventList();
+      setOpenConfirmationDialog(false); // Close dialog after action completion
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
@@ -137,7 +210,10 @@ const SportsEvents = () => {
             </Button>
             <Button
               className="flex items-center justify-center gap-5 bg-[#244860]"
-              onClick={handleOpen}
+              onClick={() => {
+                hanldeOpenDialog();
+                setDialogTitle("New Sport Event");
+              }}
             >
               <PlusCircleIcon className="h-5 w-5" />
               New Event
@@ -146,9 +222,27 @@ const SportsEvents = () => {
         </div>
       </Card>
 
-      <Table table={table} data={data} />
+      {loading ? (
+        <Spinner className="mx-auto my-auto h-16 w-16 text-gray-900/50" />
+      ) : (
+        <>{sportEventList && <Table table={table} data={sportEventList} />}</>
+      )}
 
-      <SportsEventDialog open={open} handleOpen={handleOpen} />
+      <SportsEventDialog
+        open={openDialog}
+        hanldeOpenDialog={hanldeOpenDialog}
+        dialogTitle={dialogTitle}
+        sportEventInfo={sportEventInfo}
+      />
+
+      <ConfimationDialog
+        openConfirmationDialog={openConfirmationDialog}
+        handleOpenConfirmationDialog={setOpenConfirmationDialog}
+        confirmationTitle={dialogInfo.confirmationTitle}
+        confirmationBody={dialogInfo.confirmationBody}
+        handleConfirmAction={handleConfirmAction}
+        handleCloseDialog={handleCloseDialog}
+      />
     </div>
   );
 };
