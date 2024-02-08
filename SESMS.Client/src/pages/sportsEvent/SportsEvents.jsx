@@ -111,7 +111,7 @@ const SportsEvents = () => {
               <CodeBracketIcon className="h-5 w-5" />
             </IconButton>
           </Tooltip>
-          <Tooltip content="Ranking">
+          <Tooltip content="Standings">
             <IconButton
               className="flex items-center justify-center gap-5 "
               variant="text"
@@ -132,7 +132,7 @@ const SportsEvents = () => {
               <UserGroupIcon className="h-5 w-5" />
             </IconButton>
           </Tooltip>
-          <Tooltip content="Score">
+          <Tooltip content="Report Score">
             <IconButton
               className="flex items-center justify-center gap-5 "
               variant="text"

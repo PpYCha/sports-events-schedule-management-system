@@ -3,14 +3,14 @@ import Sidebar from "./components/Sidebar";
 import NavbarComponent from "./components/NavbarComponent";
 import { Outlet, useLocation } from "react-router-dom";
 import Login from "./pages/login/Login";
-import { Home } from "./home/Home";
+import { Home } from "./pages/home/Home";
 
 function App() {
   const location = useLocation();
   const pathname = location.pathname;
   if (pathname === "/login") {
     return <Login />;
-  } else if (pathname === "/home" || pathname === "/") {
+  } else if (pathname === "/") {
     return <Home />;
   } else {
     return (

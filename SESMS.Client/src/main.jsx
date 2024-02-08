@@ -20,7 +20,7 @@ import Settings from "./pages/Settings.jsx";
 import Login from "./pages/login/Login.jsx";
 import Schedules from "./pages/schedules/Schedules.jsx";
 import Venues from "./pages/venues/Venues.jsx";
-import { Home } from "./home/Home.jsx";
+import { Home } from "./pages/home/Home.jsx";
 import useAuthStore from "./context/authStore.js";
 import Users from "./pages/users/Users.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
