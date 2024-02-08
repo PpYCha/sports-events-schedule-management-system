@@ -8,54 +8,100 @@ import {
   Option,
   Select,
 } from "@material-tailwind/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useForm from "../../hooks/useForm";
+import axios from "axios";
+import { defaultUrl } from "../../utils/defaultUrl";
+import refreshStore from "../../context/refreshStore";
 
-const SportsEventDialog = ({ open, handleOpen }) => {
-  const initialFormValues = {
+const SportsEventDialog = ({
+  open,
+  hanldeOpenDialog,
+  dialogTitle,
+  sportEventInfo,
+}) => {
+  const { loadingSportEvent, refreshSportEvents } = refreshStore();
+  const [payload, setPayload] = useState({
     sportEvent: "",
     description: "",
-    game: "",
+    sport: "",
+  });
+
+  useEffect(() => {
+    if (sportEventInfo) {
+      setPayload({ ...payload, ...sportEventInfo });
+    }
+  }, [sportEventInfo]);
+
+  const postData = async () => {
+    const result = await axios.post(`${defaultUrl}sport-events`, payload);
+    refreshSportEvents();
+    hanldeOpenDialog();
   };
 
-  const { values, handleChange, handleSubmit, resetForm } = useForm(
-    initialFormValues,
-    onSubmit,
-  );
+  const updateData = async () => {
+    const result = await axios.put(
+      `${defaultUrl}sport-events/${payload.sportEventId}`,
+      payload,
+    );
+    refreshSportEvents();
+    hanldeOpenDialog();
+  };
 
-  function onSubmit(formData) {
-    console.log("Form data submitted:", formData);
-    // You can handle form submission logic here
-    // e.g., make an API call or update state in the parent component
-    // After successful submission, you may want to close the dialog
-    resetForm();
-    handleOpen();
-    // Optionally, reset the form
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (sportEventInfo.sportEventId === undefined) {
+      console.log("Calling postData()");
+      postData();
+    } else {
+      console.log("Calling updateData()");
+      updateData();
+    }
+
+    handleResetPayload();
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
+
+    setPayload({
+      ...payload,
+      [name]: newValue,
+    });
+  };
+
+  const handleResetPayload = () => {
+    setPayload({
+      sportEvent: "",
+      description: "",
+      sport: "",
+    });
+  };
 
   return (
-    <Dialog open={open} handler={handleOpen}>
+    <Dialog open={open} handler={hanldeOpenDialog}>
       <DialogHeader>New Sport Event</DialogHeader>
       <DialogBody divider>
         <div className="flex flex-col gap-5">
-          {/* 5. Connect Input components to the useForm state */}
           <Input
-            label="Sport Event"
+            label={"Sport Event"}
+            value={payload.sportEvent}
             name="sportEvent"
-            value={values.sportEvent}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
           <Input
-            label="Description"
+            label={"Description"}
+            value={payload.description}
             name="description"
-            value={values.description}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
           <Input
-            label="Game"
-            name="game"
-            value={values.game}
-            onChange={handleChange}
+            label={"Sport"}
+            value={payload.sport}
+            name="sport"
+            onChange={handleInputChange}
           />
         </div>
       </DialogBody>
@@ -63,7 +109,7 @@ const SportsEventDialog = ({ open, handleOpen }) => {
         <Button
           variant="text"
           color="red"
-          onClick={handleOpen}
+          onClick={hanldeOpenDialog}
           className="mr-1"
         >
           <span>Cancel</span>

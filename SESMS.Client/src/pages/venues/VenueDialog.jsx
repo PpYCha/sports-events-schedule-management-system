@@ -11,14 +11,15 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { defaultUrl } from "../../utils/defaultUrl";
+import refreshStore from "../../context/refreshStore";
 
 const VenueDialog = ({ open, hanldeOpenDialog, dialogTitle, venueInfo }) => {
+  const { refreshVenue } = refreshStore();
   const [payload, setPayload] = useState({
     venueName: "",
     venueLocation: "",
   });
 
-  // Populate payload with venueInfo if it exists
   useEffect(() => {
     if (venueInfo) {
       setPayload({ ...payload, ...venueInfo });
@@ -27,6 +28,7 @@ const VenueDialog = ({ open, hanldeOpenDialog, dialogTitle, venueInfo }) => {
 
   const postData = async () => {
     const result = await axios.post(`${defaultUrl}venues`, payload);
+    refreshVenue();
     hanldeOpenDialog();
   };
 
@@ -35,6 +37,7 @@ const VenueDialog = ({ open, hanldeOpenDialog, dialogTitle, venueInfo }) => {
       `${defaultUrl}venues/${payload.venueId}`,
       payload,
     );
+    refreshVenue();
     hanldeOpenDialog();
   };
 

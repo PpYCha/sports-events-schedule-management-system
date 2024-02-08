@@ -39,13 +39,15 @@ import VenueDialog from "./VenueDialog";
 import axios from "axios";
 import { defaultUrl } from "../../utils/defaultUrl";
 import ConfimationDialog from "../../components/ConfimationDialog";
+import refreshStore from "../../context/refreshStore";
 
 const columnHelper = createColumnHelper();
 
 const Venues = () => {
+  const { loadingVenue, refreshVenue } = refreshStore();
   const [venueList, setVenueList] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [Loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [venueInfo, setVenueInfo] = useState([]);
   const [dialogTitle, setDialogTitle] = useState("");
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
@@ -59,6 +61,17 @@ const Venues = () => {
     fetchVenueList();
   }, []);
 
+  useEffect(() => {
+    fetchVenueList();
+  }, []);
+
+  useEffect(() => {
+    if (loadingVenue) {
+      fetchVenueList();
+      refreshVenue();
+    }
+  }, [loadingVenue]);
+
   const fetchVenueList = async () => {
     setLoading(true);
     const res = await axios.get(`${defaultUrl}venues`);
@@ -66,8 +79,6 @@ const Venues = () => {
 
     setLoading(false);
   };
-
-  // Rest of your component...
 
   const columns = [
     columnHelper.accessor("venueName", {
@@ -167,7 +178,7 @@ const Venues = () => {
           </div>
         </div>
       </Card>
-      {Loading ? (
+      {loading ? (
         <Spinner className="mx-auto my-auto h-16 w-16 text-gray-900/50" />
       ) : (
         <>{venueList && <Table table={table} data={venueList} />}</>
