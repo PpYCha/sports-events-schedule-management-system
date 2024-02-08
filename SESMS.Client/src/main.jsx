@@ -28,7 +28,8 @@ import { ParticipantsForm } from "./pages/sportsEvent/ParticipantsForm.jsx";
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  return isAuthenticated ? children : children;
+  // return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
 const router = createBrowserRouter(

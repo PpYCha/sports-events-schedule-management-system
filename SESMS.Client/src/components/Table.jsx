@@ -41,7 +41,7 @@ const Table = ({ table, data, globalFilter, setGlobalFilter }) => {
                   return (
                     <th
                       key={header.id}
-                      className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                      className="border-b border-blue-gray-100 bg-blue-gray-50 p-2"
                     >
                       {header.isPlaceholder
                         ? null
@@ -62,8 +62,8 @@ const Table = ({ table, data, globalFilter, setGlobalFilter }) => {
               {table.getRowModel().rows.map((row, index) => {
                 const isLast = index === data.length - 1;
                 const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
+                  ? "px-2"
+                  : "px-2 border-b border-blue-gray-50";
                 // console.log(row);
                 return (
                   <tr key={row.id} className="">
