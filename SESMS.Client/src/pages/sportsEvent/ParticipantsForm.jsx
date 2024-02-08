@@ -82,9 +82,9 @@ export const ParticipantsForm = () => {
     setLoading(true);
     const res = await axios.get(`${defaultUrl}participants`);
 
-    const filteredTeamList = res.data.data.filter(
-      (seId) => seId.sportEventId == eventId,
-    );
+    const filteredTeamList = res.data.data
+      .filter((seId) => seId.sportEventId == eventId)
+      .sort((a, b) => a.seed - b.seed);
 
     const indexedTeamList = filteredTeamList.map((item, index) => ({
       ...item,
@@ -93,7 +93,7 @@ export const ParticipantsForm = () => {
 
     const seedCount = indexedTeamList.length + 1;
     setPayload({ ...payload, seed: seedCount });
-    setTeamList(indexedTeamList);
+    setTeamList(filteredTeamList);
 
     setLoading(false);
   };
@@ -204,14 +204,34 @@ export const ParticipantsForm = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const newValue = type === "checkbox" ? checked : value;
-    console.log(newValue);
-    setPayload({
-      ...payload,
-      [name]: newValue,
-    });
+  const handleShuffle = async () => {
+    const shuffledSeeds = shuffleSeedValues();
+    console.log(shuffledSeeds);
+    await Promise.all(
+      shuffledSeeds.map(async (item, index) => {
+        await axios.put(
+          `${defaultUrl}participants/${item.participantId}`,
+          item,
+        );
+      }),
+    );
+    fetchTeamList();
+  };
+
+  const shuffleSeedValues = () => {
+    const newArray = teamList;
+
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i].seed, newArray[j].seed] = [
+        newArray[j].seed,
+        newArray[i].seed,
+      ];
+    }
+
+    // Now newArray contains the shuffled seed values
+    return newArray;
+    // You can update your state or perform any other action with the shuffled array
   };
 
   return (
@@ -233,6 +253,8 @@ export const ParticipantsForm = () => {
               <Option value="Team 2">Team 2</Option>
               <Option value="Team 3">Team 3</Option>
               <Option value="Team 4">Team 4</Option>
+              <Option value="Team 5">Team 5</Option>
+              <Option value="Team 6">Team 6</Option>
             </Select>
           </div>
           <div className="flex items-center justify-center gap-5">
@@ -245,7 +267,7 @@ export const ParticipantsForm = () => {
             </Button>
             <Button
               className="flex items-center justify-center gap-5 bg-[#244860]"
-              onClick={handleSubmit}
+              onClick={handleShuffle}
             >
               <PlusCircleIcon className="h-5 w-5" />
               Shuffle Seeds
