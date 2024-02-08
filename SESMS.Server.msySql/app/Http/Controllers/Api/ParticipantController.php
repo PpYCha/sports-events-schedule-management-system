@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\SportEvent;
+use App\Models\Participant;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class SportEventController extends Controller
+class ParticipantController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class SportEventController extends Controller
     public function index()
     {
         //
-        $data = SportEvent::all();
+        $data = Participant::all();
 
         return response()->json(['data' => $data], 200);
     }
@@ -34,16 +34,17 @@ class SportEventController extends Controller
      */
     public function store(Request $request)
     {
+
         //
         try {
 
             $request->validate([
-                'sportEvent' => 'nullable|string',
-                'description' => 'nullable|string',
-                'sport' => 'nullable|string',
+                'sportEventId' => 'required',
+                'team' => 'required|string',
+                'seed' => 'required|integer',
             ]);
 
-            $data = SportEvent::create($request->all());
+            $data = Participant::create($request->all());
             return response()->json(['data' => $data], 201);
         } catch (ValidationException $e) {
             return response()->json(['error' => $e->validator->errors()]);
@@ -60,16 +61,15 @@ class SportEventController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SportEvent $sportEvent)
+    public function show(Participant $participant)
     {
         //
-        return response()->json(['data', $sportEvent], 200);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SportEvent $sportEvent)
+    public function edit(Participant $participant)
     {
         //
     }
@@ -77,19 +77,19 @@ class SportEventController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SportEvent $sportEvent)
+    public function update(Request $request, Participant $participant)
     {
         //
         try {
             $request->validate([
-                'sportEvent' => 'nullable|string',
-                'description' => 'nullable|string',
-                'sport' => 'nullable|string',
+                'sportEventId' => 'required',
+                'team' => 'required|string',
+                'seed' => 'required|integer',
             ]);
 
-            $sportEvent->fill($request->except('sportEventId'))->save();
+            $participant->fill($request->except('participantId'))->save();
 
-            return response()->json(['data' => $sportEvent], 200);
+            return response()->json(['data' => $participant], 200);
 
         } catch (ValidationException $e) {
             // Handle validation errors
@@ -108,14 +108,14 @@ class SportEventController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SportEvent $sportEvent)
+    public function destroy(Participant $participant)
     {
         //
         try {
-            $sportEvent->delete();
+            $participant->delete();
 
             // Return a success response
-            return response()->json(['data' => $sportEvent], 200);
+            return response()->json(['data' => $participant], 200);
 
         } catch (\Throwable $e) {
             // Handle other unexpected errors

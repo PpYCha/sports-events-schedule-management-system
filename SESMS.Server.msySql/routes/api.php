@@ -2,8 +2,9 @@
 
 use App\Http\Controllers\Api\AthleteController;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ParticipantController;
 use App\Http\Controllers\Api\SportEventController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VenueController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +27,6 @@ Route::apiResource('athletes', AthleteController::class);
 Route::apiResource('users', UserController::class);
 Route::apiResource('venues', VenueController::class);
 Route::apiResource('sport-events', SportEventController::class);
+Route::apiResource('participants', ParticipantController::class);
 
 Route::post('/login', [AuthController::class, 'login']);

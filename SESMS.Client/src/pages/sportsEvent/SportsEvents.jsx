@@ -26,6 +26,7 @@ import {
   Option,
   Select,
   Spinner,
+  Tooltip,
   Typography,
 } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
@@ -102,68 +103,75 @@ const SportsEvents = () => {
     columnHelper.accessor("action", {
       cell: (info) => (
         <div className="flex gap-4">
-          <IconButton
-            className="flex items-center justify-center gap-5 "
-            variant="text"
-            // onClick={(e) => {
-            //   setUserInfo(info.row.original);
-            //   setDialogTitle("Upate User");
-            //   hanldeOpenDialog();
-            // }}
-          >
-            <CodeBracketIcon className="h-5 w-5" />
-          </IconButton>
-          <IconButton
-            className="flex items-center justify-center gap-5 "
-            variant="text"
-            // onClick={(e) => {
-            //   setUserInfo(info.row.original);
-            //   setDialogTitle("Upate User");
-            //   hanldeOpenDialog();
-            // }}
-          >
-            <ChartBarIcon className="h-5 w-5" />
-          </IconButton>
-          <IconButton
-            className="flex items-center justify-center gap-5 "
-            variant="text"
-            onClick={(e) => {
-              navigate("/sportevents/1/participants");
-            }}
-          >
-            <UserGroupIcon className="h-5 w-5" />
-          </IconButton>
-          <IconButton
-            className="flex items-center justify-center gap-5 "
-            variant="text"
-            // onClick={(e) => {
-            //   setUserInfo(info.row.original);
-            //   setDialogTitle("Upate User");
-            //   hanldeOpenDialog();
-            // }}
-          >
-            <StarIcon className="h-5 w-5" />
-          </IconButton>
-          <IconButton
-            className="flex items-center justify-center gap-5 bg-[#313131]"
-            onClick={(e) => {
-              setsportEventInfo(info.row.original);
+          <Tooltip content="Bracket">
+            <IconButton
+              className="flex items-center justify-center gap-5 "
+              variant="text"
+            >
+              <CodeBracketIcon className="h-5 w-5" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip content="Ranking">
+            <IconButton
+              className="flex items-center justify-center gap-5 "
+              variant="text"
+            >
+              <ChartBarIcon className="h-5 w-5" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip content="Participants">
+            <IconButton
+              className="flex items-center justify-center gap-5 "
+              variant="text"
+              onClick={(e) => {
+                navigate(
+                  `/sportevents/${info.row.original.sportEventId}/participants`,
+                );
+              }}
+            >
+              <UserGroupIcon className="h-5 w-5" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip content="Score">
+            <IconButton
+              className="flex items-center justify-center gap-5 "
+              variant="text"
+              // onClick={(e) => {
+              //   setUserInfo(info.row.original);
+              //   setDialogTitle("Upate User");
+              //   hanldeOpenDialog();
+              // }}
+            >
+              <StarIcon className="h-5 w-5" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip content="Edit">
+            <IconButton
+              className="flex items-center justify-center gap-5 "
+              variant="text"
+              color="gray"
+              onClick={(e) => {
+                setsportEventInfo(info.row.original);
 
-              setDialogTitle("Upate Event");
-              hanldeOpenDialog();
-            }}
-          >
-            <PencilSquareIcon className="h-5 w-5" />
-          </IconButton>
-          <IconButton
-            className="flex items-center justify-center gap-5 bg-red-500"
-            onClick={(e) => {
-              handleDelete(info.row.original.sportEventId);
-              setSelectedId(info.row.original);
-            }}
-          >
-            <TrashIcon className="h-5 w-5" />
-          </IconButton>
+                setDialogTitle("Upate Event");
+                hanldeOpenDialog();
+              }}
+            >
+              <PencilSquareIcon className="h-5 w-5" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip content="Delete">
+            <IconButton
+              className="flex items-center justify-center gap-5 "
+              variant="text"
+              onClick={(e) => {
+                handleDelete(info.row.original.sportEventId);
+                setSelectedId(info.row.original);
+              }}
+            >
+              <TrashIcon className="h-5 w-5" color="red" />
+            </IconButton>
+          </Tooltip>
         </div>
       ),
       header: () => <span>Actions</span>,

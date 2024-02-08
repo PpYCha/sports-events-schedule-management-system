@@ -79,7 +79,7 @@ const router = createBrowserRouter(
           }
         />
         <Route
-          path="sportevents/:id/participants"
+          path="sportevents/:eventId/participants"
           element={
             <ProtectedRoute>
               <ParticipantsForm />

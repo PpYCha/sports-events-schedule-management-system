@@ -21,6 +21,7 @@ import {
   Option,
   Select,
   Spinner,
+  Tooltip,
   Typography,
 } from "@material-tailwind/react";
 import React, { useEffect, useMemo, useState } from "react";
@@ -93,26 +94,33 @@ const Venues = () => {
     columnHelper.accessor("action", {
       cell: (info) => (
         <div className="flex gap-4">
-          <IconButton
-            className="flex items-center justify-center gap-5 bg-[#313131]"
-            onClick={(e) => {
-              setVenueInfo(info.row.original);
+          <Tooltip content="Edit">
+            <IconButton
+              className="flex items-center justify-center gap-5 "
+              variant="text"
+              color="gray"
+              onClick={(e) => {
+                setVenueInfo(info.row.original);
 
-              setDialogTitle("Upate Venue");
-              hanldeOpenDialog();
-            }}
-          >
-            <PencilSquareIcon className="h-5 w-5" />
-          </IconButton>
-          <IconButton
-            className="flex items-center justify-center gap-5 bg-red-500"
-            onClick={(e) => {
-              handleDelete(info.row.original.venueId);
-              setSelectedId(info.row.original);
-            }}
-          >
-            <TrashIcon className="h-5 w-5" />
-          </IconButton>
+                setDialogTitle("Upate Venue");
+                hanldeOpenDialog();
+              }}
+            >
+              <PencilSquareIcon className="h-5 w-5" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip content="Delete">
+            <IconButton
+              className="flex items-center justify-center gap-5 "
+              variant="text"
+              onClick={(e) => {
+                handleDelete(info.row.original.venueId);
+                setSelectedId(info.row.original);
+              }}
+            >
+              <TrashIcon className="h-5 w-5" color="red" />
+            </IconButton>
+          </Tooltip>
         </div>
       ),
       header: () => <span>Actions</span>,
