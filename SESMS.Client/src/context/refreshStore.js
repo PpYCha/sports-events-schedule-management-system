@@ -4,6 +4,7 @@ import create from "zustand";
 const refreshStore = create((set) => ({
   loadingSportEvent: false,
   loadingVenue: false,
+  loadingTeam: false,
 
   refreshSportEvents: () => {
     try {
@@ -18,6 +19,15 @@ const refreshStore = create((set) => ({
     try {
       set((state) => ({
         loadingVenue: !state.loadingVenue,
+      }));
+    } catch (error) {
+      console.error("Error decoding token:", error);
+    }
+  },
+  refresTeam: () => {
+    try {
+      set((state) => ({
+        loadingTeam: !state.loadingTeam,
       }));
     } catch (error) {
       console.error("Error decoding token:", error);
