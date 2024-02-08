@@ -45,6 +45,7 @@ import { useNavigate } from "react-router-dom";
 import ConfimationDialog from "../../components/ConfimationDialog";
 import axios from "axios";
 import { defaultUrl } from "../../utils/defaultUrl";
+import refreshStore from "../../context/refreshStore";
 
 const columnHelper = createColumnHelper();
 
@@ -62,9 +63,18 @@ const SportsEvents = () => {
   });
   const [selectedId, setSelectedId] = useState([]);
 
+  const { loadingSportEvent, refreshSportEvents } = refreshStore();
+
   useEffect(() => {
     fetchSportEventList();
   }, []);
+
+  useEffect(() => {
+    if (loadingSportEvent) {
+      fetchSportEventList();
+      refreshSportEvents();
+    }
+  }, [loadingSportEvent]);
 
   const fetchSportEventList = async () => {
     setLoading(true);

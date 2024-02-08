@@ -12,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import useForm from "../../hooks/useForm";
 import axios from "axios";
 import { defaultUrl } from "../../utils/defaultUrl";
+import refreshStore from "../../context/refreshStore";
 
 const SportsEventDialog = ({
   open,
@@ -19,6 +20,7 @@ const SportsEventDialog = ({
   dialogTitle,
   sportEventInfo,
 }) => {
+  const { loadingSportEvent, refreshSportEvents } = refreshStore();
   const [payload, setPayload] = useState({
     sportEvent: "",
     description: "",
@@ -33,6 +35,7 @@ const SportsEventDialog = ({
 
   const postData = async () => {
     const result = await axios.post(`${defaultUrl}sport-events`, payload);
+    refreshSportEvents();
     hanldeOpenDialog();
   };
 
@@ -41,6 +44,7 @@ const SportsEventDialog = ({
       `${defaultUrl}sport-events/${payload.sportEventId}`,
       payload,
     );
+    refreshSportEvents();
     hanldeOpenDialog();
   };
 

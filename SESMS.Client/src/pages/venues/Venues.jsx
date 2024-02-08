@@ -39,10 +39,12 @@ import VenueDialog from "./VenueDialog";
 import axios from "axios";
 import { defaultUrl } from "../../utils/defaultUrl";
 import ConfimationDialog from "../../components/ConfimationDialog";
+import refreshStore from "../../context/refreshStore";
 
 const columnHelper = createColumnHelper();
 
 const Venues = () => {
+  const { loadingVenue, refreshVenue } = refreshStore();
   const [venueList, setVenueList] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -58,6 +60,17 @@ const Venues = () => {
   useEffect(() => {
     fetchVenueList();
   }, []);
+
+  useEffect(() => {
+    fetchVenueList();
+  }, []);
+
+  useEffect(() => {
+    if (loadingVenue) {
+      fetchVenueList();
+      refreshVenue();
+    }
+  }, [loadingVenue]);
 
   const fetchVenueList = async () => {
     setLoading(true);

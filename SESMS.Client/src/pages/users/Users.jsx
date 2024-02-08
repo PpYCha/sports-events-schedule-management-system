@@ -93,7 +93,7 @@ const Users = () => {
           <IconButton
             className="flex items-center justify-center gap-5 bg-red-500"
             onClick={(e) => {
-              handleDelete(info.row.original._id);
+              handleDelete(info.row.original.userId);
               setSelectedId(info.row.original);
             }}
           >
@@ -124,7 +124,7 @@ const Users = () => {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: () => axios.delete(`${defaultUrl}users/${selectedId._id}`),
+    mutationFn: () => axios.delete(`${defaultUrl}users/${selectedId.userId}`),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["getUsers"] }),
   });
 
@@ -158,7 +158,7 @@ const Users = () => {
 
   const handleConfirmAction = async () => {
     try {
-      // await axios.delete(`http://localhost:3000/users/${selectedId._id}`);
+      // await axios.delete(`http://localhost:3000/users/${selectedId.userId}`);
       deleteMutation.mutate();
       setOpenConfirmationDialog(false); // Close dialog after action completion
     } catch (error) {
