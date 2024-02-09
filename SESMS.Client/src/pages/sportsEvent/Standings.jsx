@@ -50,7 +50,7 @@ import refreshStore from "../../context/refreshStore";
 
 const columnHelper = createColumnHelper();
 
-const SportsEvents = () => {
+const Standings = () => {
   const navigate = useNavigate();
   const [sportEventList, setSportEventList] = useState([]);
   const [sportEventInfo, setsportEventInfo] = useState([]);
@@ -89,102 +89,16 @@ const SportsEvents = () => {
   const columns = [
     columnHelper.accessor("sportEvent", {
       cell: (info) => info.getValue(),
-      header: () => <span>Sport Event</span>,
+      header: () => <span>Rank</span>,
     }),
 
     columnHelper.accessor("description", {
       cell: (info) => info.getValue(),
-      header: () => <span>Descripition</span>,
+      header: () => <span>Participant Name</span>,
     }),
     columnHelper.accessor("sport", {
       cell: (info) => info.getValue(),
-      header: () => <span>Game</span>,
-    }),
-    columnHelper.accessor("action", {
-      cell: (info) => (
-        <div className="flex gap-4">
-          <Tooltip content="Bracket">
-            <IconButton
-              className="flex items-center justify-center gap-5 "
-              variant="text"
-              onClick={(e) => {
-                navigate(
-                  `/sportevents/${info.row.original.sportEventId}/brackets`,
-                );
-              }}
-            >
-              <CodeBracketIcon className="h-5 w-5" />
-            </IconButton>
-          </Tooltip>
-          <Tooltip content="Standings">
-            <IconButton
-              className="flex items-center justify-center gap-5 "
-              variant="text"
-              onClick={(e) => {
-                navigate(
-                  `/sportevents/${info.row.original.sportEventId}/standings`,
-                );
-              }}
-            >
-              <ChartBarIcon className="h-5 w-5" />
-            </IconButton>
-          </Tooltip>
-          <Tooltip content="Participants">
-            <IconButton
-              className="flex items-center justify-center gap-5 "
-              variant="text"
-              onClick={(e) => {
-                navigate(
-                  `/sportevents/${info.row.original.sportEventId}/participants`,
-                );
-              }}
-            >
-              <UserGroupIcon className="h-5 w-5" />
-            </IconButton>
-          </Tooltip>
-          <Tooltip content="Report Score">
-            <IconButton
-              className="flex items-center justify-center gap-5 "
-              variant="text"
-              // onClick={(e) => {
-              //   setUserInfo(info.row.original);
-              //   setDialogTitle("Upate User");
-              //   hanldeOpenDialog();
-              // }}
-            >
-              <StarIcon className="h-5 w-5" />
-            </IconButton>
-          </Tooltip>
-          <Tooltip content="Edit">
-            <IconButton
-              className="flex items-center justify-center gap-5 "
-              variant="text"
-              color="gray"
-              onClick={(e) => {
-                setsportEventInfo(info.row.original);
-
-                setDialogTitle("Upate Event");
-                hanldeOpenDialog();
-              }}
-            >
-              <PencilSquareIcon className="h-5 w-5" />
-            </IconButton>
-          </Tooltip>
-          <Tooltip content="Delete">
-            <IconButton
-              className="flex items-center justify-center gap-5 "
-              variant="text"
-              onClick={(e) => {
-                handleDelete(info.row.original.sportEventId);
-                setSelectedId(info.row.original);
-              }}
-            >
-              <TrashIcon className="h-5 w-5" color="red" />
-            </IconButton>
-          </Tooltip>
-        </div>
-      ),
-      header: () => <span>Actions</span>,
+      header: () => <span>Match History</span>,
     }),
   ];
 
@@ -229,24 +143,8 @@ const SportsEvents = () => {
       <Card className="mb-5 p-5">
         <div className="flex items-center justify-between ">
           <Typography variant="h4" className="">
-            List of Sports Event
+            Standings
           </Typography>
-          <div className="flex items-center justify-center gap-5">
-            <Button className="flex items-center justify-center gap-5 bg-[#244860]">
-              <PrinterIcon className="h-5 w-5" />
-              Print List
-            </Button>
-            <Button
-              className="flex items-center justify-center gap-5 bg-[#244860]"
-              onClick={() => {
-                hanldeOpenDialog();
-                setDialogTitle("New Sport Event");
-              }}
-            >
-              <PlusCircleIcon className="h-5 w-5" />
-              New Event
-            </Button>
-          </div>
         </div>
       </Card>
 
@@ -275,4 +173,4 @@ const SportsEvents = () => {
   );
 };
 
-export default SportsEvents;
+export default Standings;

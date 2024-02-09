@@ -7,13 +7,12 @@ import {
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-
-const URL =
-  "https://raw.githubusercontent.com/Drarig29/brackets-viewer.js/master/demo/db.json";
+import { bracketData } from "../../data/BRACKET_MOCK_DATA.jS";
 
 export function Home() {
   const navigate = useNavigate();
   const [openNav, setOpenNav] = React.useState(false);
+  const [bracketList, setBracketList] = useState(bracketData);
 
   function NavList() {
     return (
@@ -69,13 +68,13 @@ export function Home() {
   }, []);
 
   async function render() {
-    const data = await fetch(URL).then((res) => res.json());
+    // const data = await fetch(URL).then((res) => res.json());
 
     window.bracketsViewer.render({
-      stages: data.stage,
-      matches: data.match,
-      matchGames: data.match_game,
-      participants: data.participant,
+      stages: bracketList.stage,
+      matches: bracketList.match,
+      matchGames: bracketList.match_game,
+      participants: bracketList.participant,
     });
   }
 

@@ -31,7 +31,12 @@ const ConfimationDialog = ({
         >
           <span>Cancel</span>
         </Button>
-        <Button variant="gradient" color="green" onClick={handleConfirmAction}>
+        <Button
+          loading={true}
+          variant="gradient"
+          color="green"
+          onClick={handleConfirmAction}
+        >
           <span>Confirm</span>
         </Button>
       </DialogFooter>

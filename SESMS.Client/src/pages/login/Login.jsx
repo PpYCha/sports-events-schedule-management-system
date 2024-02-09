@@ -71,7 +71,7 @@ const Login = () => {
         <Card className="p-5 ">
           <div
             className="flex  w-full items-center justify-center"
-            onClick={(e) => navigate("/home")}
+            onClick={(e) => navigate("/")}
           >
             <img src={logoImage} className="h-auto max-h-[200px] " />
           </div>
