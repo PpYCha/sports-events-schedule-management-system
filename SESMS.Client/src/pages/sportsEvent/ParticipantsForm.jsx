@@ -168,8 +168,6 @@ export const ParticipantsForm = () => {
         seed: index + 1, // Adding 1 to make the index 1-based
       }));
 
-      console.log(indexedTeamList);
-
       await Promise.all(
         indexedTeamList.map(async (item, index) => {
           await axios.put(
@@ -178,7 +176,6 @@ export const ParticipantsForm = () => {
           );
         }),
       );
-
       fetchTeamList();
       setOpenConfirmationDialog(false); // Close dialog after action completion
     } catch (error) {
