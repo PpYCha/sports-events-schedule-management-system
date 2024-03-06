@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('coaches', function (Blueprint $table) {
-            $table->id();
+            $table->id('coachId');
+            $table->string('coachName')->nullable();
             $table->timestamps();
         });
     }

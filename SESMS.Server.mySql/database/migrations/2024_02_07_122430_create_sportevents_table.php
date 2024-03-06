@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id('sportEventId');
             $table->string('sportEvent')->nullable();
             $table->string('description')->nullable();
-            $table->string('sport')->nullable();
-
+            $table->foreignId('sportId')->nullable()->constrained('sports', 'sportId')->onDelete('cascade');
+            $table->foreignId('venueId')->nullable()->constrained('venues', 'venueId')->onDelete('cascade');
+            $table->dateTime('start_datetime');
+            $table->dateTime('end_datetime');
             $table->timestamps();
         });
     }

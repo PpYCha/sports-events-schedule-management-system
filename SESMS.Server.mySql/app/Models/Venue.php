@@ -9,12 +9,19 @@ class Venue extends Model
 {
     use HasFactory;
     protected $table = 'venues';
+    protected $primaryKey = 'venueId';
     protected $fillable = [
         'venueId',
         'venueName',
+        'venueImageUrl',
         'venueLocation',
+        'indoorOrOutdoor',
 
     ];
 
-    protected $primaryKey = 'venueId';
+    public function sportEvents()
+    {
+        return $this->hasMany(SportsEvent::class);
+    }
+
 }
