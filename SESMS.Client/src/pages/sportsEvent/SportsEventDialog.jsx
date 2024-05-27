@@ -25,6 +25,8 @@ const SportsEventDialog = ({
     sportEvent: "",
     description: "",
     sport: "",
+    date: "",
+    time: "",
   });
 
   useEffect(() => {
@@ -91,18 +93,45 @@ const SportsEventDialog = ({
             name="sportEvent"
             onChange={handleInputChange}
           />
-          <Input
-            label={"Description"}
-            value={payload.description}
-            name="description"
-            onChange={handleInputChange}
-          />
-          <Input
+          <div className="flex flex-row gap-5">
+            <Input
+              label={"Date"}
+              value={payload.date}
+              name="date"
+              onChange={handleInputChange}
+              type="date"
+            />
+            <Input
+              label={"Time"}
+              value={payload.time}
+              name="time"
+              onChange={handleInputChange}
+              type="time"
+            />
+          </div>
+          {/* <Input
             label={"Sport"}
             value={payload.sport}
             name="sport"
             onChange={handleInputChange}
-          />
+          /> */}
+
+          <Select
+            label="Select Sport"
+            value={payload.sport}
+            name="sport"
+            onChange={(e) => setPayload({ ...payload, sport: e })}
+            // onChange={handleSelectChange}
+          >
+            <Option value="--" disabled>
+              --
+            </Option>
+            <Option value="Badminton">Badminton</Option>
+            <Option value="Baseball">Baseball</Option>
+            <Option value="Basketball">Basketball</Option>
+            <Option value="Chess">Chess</Option>
+            <Option value="Volleyball">Volleyball</Option>
+          </Select>
         </div>
       </DialogBody>
       <DialogFooter>

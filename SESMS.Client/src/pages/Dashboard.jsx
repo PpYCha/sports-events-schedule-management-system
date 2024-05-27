@@ -40,7 +40,7 @@ const cardList = [
   },
 ];
 
-const TABLE_HEAD = ["Event", "Date", "Venue"];
+const TABLE_HEAD = ["Event", "Date", "Time", "Venue"];
 
 const TABLE_ROWS = [
   {
@@ -141,6 +141,15 @@ const Dashboard = () => {
                             className="font-normal"
                           >
                             {item.event_date}
+                          </Typography>
+                        </td>
+                        <td className="p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {item.time}
                           </Typography>
                         </td>
                         <td className="p-4">
