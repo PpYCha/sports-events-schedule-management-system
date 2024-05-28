@@ -253,7 +253,8 @@ const SportsEvents = () => {
       {loading ? (
         <Spinner className="mx-auto my-auto h-16 w-16 text-gray-900/50" />
       ) : (
-        <>{sportEventList && <Table table={table} data={sportEventList} />}</>
+        // <>{sportEventList && <Table table={table} data={sportEventList} />}</>
+        <></>
       )}
 
       <SportsEventDialog

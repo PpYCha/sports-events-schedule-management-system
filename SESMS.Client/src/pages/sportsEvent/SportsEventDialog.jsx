@@ -7,6 +7,7 @@ import {
   Input,
   Option,
   Select,
+  Typography,
 } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import useForm from "../../hooks/useForm";
@@ -27,6 +28,8 @@ const SportsEventDialog = ({
     sport: "",
     date: "",
     time: "",
+    firstUnit: "",
+    secondUnit: "",
   });
 
   useEffect(() => {
@@ -131,6 +134,42 @@ const SportsEventDialog = ({
             <Option value="Basketball">Basketball</Option>
             <Option value="Chess">Chess</Option>
             <Option value="Volleyball">Volleyball</Option>
+          </Select>
+
+          <Select
+            label="Select Unit"
+            value={payload.firstUnit}
+            name="firstUnit"
+            onChange={(e) => setPayload({ ...payload, firstUnit: e })}
+            // onChange={handleSelectChange}
+          >
+            <Option value="--" disabled>
+              --
+            </Option>
+            <Option value="Unit 1">Unit 1</Option>
+            <Option value="Unit 2">Unit 2</Option>
+            <Option value="Unit 3">Unit 3</Option>
+            <Option value="Unit 4">Unit 4</Option>
+            <Option value="Unit 5">Unit 5</Option>
+          </Select>
+
+          <Typography className="text-center">VS</Typography>
+
+          <Select
+            label="Select Unit"
+            value={payload.secondUnit}
+            name="secondUnit"
+            onChange={(e) => setPayload({ ...payload, secondUnit: e })}
+            // onChange={handleSelectChange}
+          >
+            <Option value="--" disabled>
+              --
+            </Option>
+            <Option value="Unit 1">Unit 1</Option>
+            <Option value="Unit 2">Unit 2</Option>
+            <Option value="Unit 3">Unit 3</Option>
+            <Option value="Unit 4">Unit 4</Option>
+            <Option value="Unit 5">Unit 5</Option>
           </Select>
         </div>
       </DialogBody>

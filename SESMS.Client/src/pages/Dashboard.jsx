@@ -40,7 +40,8 @@ const cardList = [
   },
 ];
 
-const TABLE_HEAD = ["Event", "Date", "Time", "Venue"];
+const TABLE_HEAD = ["Event", "Match", "Date", "Time", "Venue"];
+const TABLE_HEAD_RESULT = ["Event", "Match", "Status"];
 
 const TABLE_ROWS = [
   {
@@ -75,7 +76,161 @@ const Dashboard = () => {
   const [teamList, setTeamList] = useState(teamData);
   return (
     <div>
-      <div className="mb-5 flex items-center justify-center gap-5">
+      <div className="grid grid-cols-3 gap-5">
+        <div className="col-span-3">
+          <Card className="">
+            <CardBody>
+              <Typography variant="h4" className="mb-5">
+                Upcoming Events
+              </Typography>
+              <div className="max-h-[500px] w-full overflow-scroll rounded-xl">
+                <table className="w-full min-w-max table-auto text-left">
+                  <thead>
+                    <tr>
+                      {TABLE_HEAD.map((head) => (
+                        <th
+                          key={head}
+                          className="sticky top-0 z-[1] border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                        >
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal leading-none opacity-70"
+                          >
+                            {head}
+                          </Typography>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {eventList.map((item) => (
+                      <tr
+                        key={item.eventId}
+                        className="even:bg-blue-gray-50/50"
+                      >
+                        <td className=" p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className=" w-[300px] font-normal"
+                          >
+                            {item.event_name}
+                          </Typography>
+                        </td>
+                        <td className=" p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className=" w-[300px] font-normal"
+                          >
+                            {item.match}
+                          </Typography>
+                        </td>
+                        <td className="p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {item.event_date}
+                          </Typography>
+                        </td>
+                        <td className="p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {item.time}
+                          </Typography>
+                        </td>
+                        <td className="p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {item.venueId}
+                          </Typography>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </CardBody>
+          </Card>
+        </div>
+        <div className="col-span-3">
+          <Card className="">
+            <CardBody>
+              <Typography variant="h4" className="mb-5">
+                Game Results
+              </Typography>
+              <div className="max-h-[500px] w-full overflow-scroll rounded-xl">
+                <table className="w-full min-w-max table-auto text-left">
+                  <thead>
+                    <tr>
+                      {TABLE_HEAD_RESULT.map((head) => (
+                        <th
+                          key={head}
+                          className="sticky top-0 z-[1] border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                        >
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal leading-none opacity-70"
+                          >
+                            {head}
+                          </Typography>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {eventList.map((item) => (
+                      <tr
+                        key={item.eventId}
+                        className="even:bg-blue-gray-50/50"
+                      >
+                        <td className=" p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className=" w-[300px] font-normal"
+                          >
+                            {item.event_name}
+                          </Typography>
+                        </td>
+                        <td className=" p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className=" w-[300px] font-normal"
+                          >
+                            {item.match}
+                          </Typography>
+                        </td>
+                        <td className=" p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className=" w-[300px] font-normal"
+                          >
+                            {item.gameResult}
+                          </Typography>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </CardBody>
+          </Card>
+        </div>
+      </div>
+      {/* <div className="mb-5 flex items-center justify-center gap-5">
         {cardList.map((item, index) => {
           const Icon = item.icon;
           return (
@@ -91,8 +246,8 @@ const Dashboard = () => {
             </Card>
           );
         })}
-      </div>
-      <div className="grid grid-cols-5 gap-5">
+      </div> */}
+      {/* <div className="grid grid-cols-5 gap-5">
         <div className="col-span-3">
           <Card className="">
             <CardBody>
@@ -188,7 +343,7 @@ const Dashboard = () => {
             </CardBody>
           </Card>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
