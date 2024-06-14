@@ -30,6 +30,9 @@ const SportsEventDialog = ({
     time: "",
     firstUnit: "",
     secondUnit: "",
+    singleDouble: "",
+    player1: "",
+    player2: "",
   });
 
   useEffect(() => {
@@ -137,40 +140,97 @@ const SportsEventDialog = ({
           </Select>
 
           <Select
-            label="Select Unit"
-            value={payload.firstUnit}
-            name="firstUnit"
-            onChange={(e) => setPayload({ ...payload, firstUnit: e })}
+            label="Select Single,Double or Group Sports"
+            value={payload.singleDouble}
+            name="singleDouble"
+            onChange={(e) => setPayload({ ...payload, singleDouble: e })}
             // onChange={handleSelectChange}
           >
             <Option value="--" disabled>
               --
             </Option>
-            <Option value="Unit 1">Unit 1</Option>
-            <Option value="Unit 2">Unit 2</Option>
-            <Option value="Unit 3">Unit 3</Option>
-            <Option value="Unit 4">Unit 4</Option>
-            <Option value="Unit 5">Unit 5</Option>
+            <Option value="Single">Single</Option>
+            <Option value="Double">Double</Option>
+            <Option value="Group">Group</Option>
           </Select>
 
-          <Typography className="text-center">VS</Typography>
+          <div className="flex flex-col gap-5">
+            <Select
+              label="Select Unit"
+              value={payload.firstUnit}
+              name="firstUnit"
+              onChange={(e) => setPayload({ ...payload, firstUnit: e })}
+              // onChange={handleSelectChange}
+            >
+              <Option value="--" disabled>
+                --
+              </Option>
+              <Option value="Unit 1">Unit 1</Option>
+              <Option value="Unit 2">Unit 2</Option>
+              <Option value="Unit 3">Unit 3</Option>
+              <Option value="Unit 4">Unit 4</Option>
+              <Option value="Unit 5">Unit 5</Option>
+            </Select>
 
-          <Select
-            label="Select Unit"
-            value={payload.secondUnit}
-            name="secondUnit"
-            onChange={(e) => setPayload({ ...payload, secondUnit: e })}
-            // onChange={handleSelectChange}
-          >
-            <Option value="--" disabled>
-              --
-            </Option>
-            <Option value="Unit 1">Unit 1</Option>
-            <Option value="Unit 2">Unit 2</Option>
-            <Option value="Unit 3">Unit 3</Option>
-            <Option value="Unit 4">Unit 4</Option>
-            <Option value="Unit 5">Unit 5</Option>
-          </Select>
+            <Typography className="text-center">VS</Typography>
+
+            <Select
+              label="Select Unit"
+              value={payload.secondUnit}
+              name="secondUnit"
+              onChange={(e) => setPayload({ ...payload, secondUnit: e })}
+              // onChange={handleSelectChange}
+            >
+              <Option value="--" disabled>
+                --
+              </Option>
+              <Option value="Unit 1">Unit 1</Option>
+              <Option value="Unit 2">Unit 2</Option>
+              <Option value="Unit 3">Unit 3</Option>
+              <Option value="Unit 4">Unit 4</Option>
+              <Option value="Unit 5">Unit 5</Option>
+            </Select>
+          </div>
+
+          {payload.singleDouble !== "Group" ? (
+            <div className="flex flex-col gap-5">
+              <Select
+                label="Select Player"
+                value={payload.firstUnit}
+                name="firstUnit"
+                onChange={(e) => setPayload({ ...payload, firstUnit: e })}
+                // onChange={handleSelectChange}
+              >
+                <Option value="--" disabled>
+                  --
+                </Option>
+                <Option value="Player 1">Player 1</Option>
+                <Option value="Player 2">Player 2</Option>
+                <Option value="Player 3">Player 3</Option>
+                <Option value="Player 4">Player 4</Option>
+                <Option value="Player 5">Player 5</Option>
+              </Select>
+
+              <Typography className="text-center">VS</Typography>
+
+              <Select
+                label="Select Player"
+                value={payload.secondUnit}
+                name="secondUnit"
+                onChange={(e) => setPayload({ ...payload, secondUnit: e })}
+                // onChange={handleSelectChange}
+              >
+                <Option value="--" disabled>
+                  --
+                </Option>
+                <Option value="Player 1">Player 1</Option>
+                <Option value="Player 2">Player 2</Option>
+                <Option value="Player 3">Player 3</Option>
+                <Option value="Player 4">Player 4</Option>
+                <Option value="Player 5">Player 5</Option>
+              </Select>
+            </div>
+          ) : null}
         </div>
       </DialogBody>
       <DialogFooter>
